@@ -1,4 +1,4 @@
-# Expert Tester Memory — ContentWriterAgent
+# Expert Tester Memory — Atlas
 
 ## Project Overview
 
