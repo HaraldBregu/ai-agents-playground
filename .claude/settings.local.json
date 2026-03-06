@@ -10,7 +10,8 @@
       "Bash(git push:*)",
       "Bash(yarn example:*)",
       "Bash(npm view:*)",
-      "Bash(yarn format:*)"
+      "Bash(yarn format:*)",
+      "Bash(npx tsc:*)"
     ]
   }
 }

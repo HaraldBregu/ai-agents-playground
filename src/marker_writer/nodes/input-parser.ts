@@ -1,5 +1,6 @@
 import { MARKERS } from "@/marker_writer/markers";
-import type { MarkerName, MarkerPosition, OperationType, ParsedInput } from "@/marker_writer/types";
+import type { MarkerName } from "@/marker_writer/markers";
+import type { MarkerPosition, OperationType, ParsedInput } from "@/marker_writer/types";
 import type { WriterStateValue } from "@/marker_writer/state";
 import {
   stripAllMarkers,
