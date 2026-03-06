@@ -85,5 +85,9 @@ export async function intentAnalyzerNode(
     },
   ] as any);
 
-  return { intentAnalysis: JSON.parse(response.content as string) };
+  const raw = (response.content as string)
+    .replace(/^```(?:json)?\s*/i, '')
+    .replace(/\s*```\s*$/, '')
+    .trim();
+  return { intentAnalysis: JSON.parse(raw) };
 }
