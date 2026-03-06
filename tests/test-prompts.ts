@@ -352,7 +352,7 @@ export const ALL_TESTS: TestCase[] = [
     rawInput: `## The Problem\n\nMost small businesses fail within five years. The reasons are well-documented: undercapitalization, poor market fit, and operational inefficiency. But there is a deeper issue that rarely gets discussed.\n\n${M}\n\n## The Solution\n\nWhat if the problem isn't a lack of resources, but a lack of the right kind of thinking?`,
     userInstruction:
       'write a transition section that deepens the problem before the solution',
-    expectedPosition: 'BETWEEN_BLOCKS',
+    expectedPosition: 'BEFORE_HEADING',
     expectedOperation: 'BRIDGE',
     validationChecks: [
       {
