@@ -11,7 +11,8 @@
       "Bash(yarn example:*)",
       "Bash(npm view:*)",
       "Bash(yarn format:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(yarn add:*)"
     ]
   }
 }
