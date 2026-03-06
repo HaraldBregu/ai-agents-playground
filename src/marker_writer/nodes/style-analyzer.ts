@@ -29,8 +29,9 @@ export async function styleAnalyzerNode(
   const model = createUnderstandingModel();
 
   const response = await model.invoke([
-    new SystemMessage(
-      `Analyze the writing style precisely. Respond with ONLY valid JSON:
+    {
+      role: "system" as const,
+      content: `Analyze the writing style precisely. Respond with ONLY valid JSON:
        {
          "tone": "specific tone description",
          "avgSentenceLength": 15,
@@ -40,9 +41,9 @@ export async function styleAnalyzerNode(
          "tense": "past | present | future | mixed",
          "notablePatterns": ["specific patterns, devices, quirks"]
        }`,
-    ),
-    new HumanMessage(sampleText),
-  ]);
+    },
+    { role: "user" as const, content: sampleText },
+  ] as any);
 
   return { styleProfile: JSON.parse(response.content as string) };
 }
