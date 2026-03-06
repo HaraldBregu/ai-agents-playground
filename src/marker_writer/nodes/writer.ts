@@ -60,8 +60,9 @@ export async function writerNode(
   const model = createWriterModel();
 
   const response = await model.invoke([
-    new SystemMessage(
-      `You are writing text to insert at a precise position in a document.
+    {
+      role: "system" as const,
+      content: `You are writing text to insert at a precise position in a document.
 
        ═══════════════════════════════════════
        POSITION INSTRUCTIONS
@@ -98,13 +99,15 @@ export async function writerNode(
           ends and your writing begins
        4. Match the exact voice — if the original uses contractions, use them
        5. Stay within ±20% of word target`,
-    ),
-    new HumanMessage(
-      `TEXT BEFORE MARKER:\n${p.immediateBefore}\n\n` +
+    },
+    {
+      role: "user" as const,
+      content:
+        `TEXT BEFORE MARKER:\n${p.immediateBefore}\n\n` +
         `---WRITE HERE---\n\n` +
         `TEXT AFTER MARKER:\n${p.immediateAfter || "(end of document)"}`,
-    ),
-  ]);
+    },
+  ] as any);
 
   return { generatedText: response.content as string };
 }
