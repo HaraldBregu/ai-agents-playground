@@ -43,8 +43,9 @@ export async function intentAnalyzerNode(
   const model = createUnderstandingModel();
 
   const response = await model.invoke([
-    new SystemMessage(
-      `Analyze what the user wants written. You have precise information about
+    {
+      role: "system" as const,
+      content: `Analyze what the user wants written. You have precise information about
        where in the document they want content.
 
        MARKER ANALYSIS:
@@ -75,12 +76,14 @@ export async function intentAnalyzerNode(
          "keyMessage": "the core message",
          "constraints": ["constraint1", "constraint2"]
        }`,
-    ),
-    new HumanMessage(
-      `Full text before marker:\n${p.textBefore.slice(-1000)}\n\n` +
+    },
+    {
+      role: "user" as const,
+      content:
+        `Full text before marker:\n${p.textBefore.slice(-1000)}\n\n` +
         `Full text after marker:\n${p.textAfter.slice(0, 1000)}`,
-    ),
-  ]);
+    },
+  ] as any);
 
   return { intentAnalysis: JSON.parse(response.content as string) };
 }
