@@ -14,7 +14,7 @@ async function runWritingAgent(
   verbose: boolean = false,
 ): Promise<void> {
   console.log('\n' + '='.repeat(60));
-  console.log('Writing Continuation Agent');
+  console.log('Atlas');
   console.log('='.repeat(60) + '\n');
 
   const graph = createWritingGraph();
