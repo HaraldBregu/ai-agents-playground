@@ -22,7 +22,10 @@
       "Bash(where gh:*)",
       "Bash(yarn test:basic_position:*)",
       "Bash(yarn test:mid_sentence:*)",
-      "Bash(yarn test:between_sections:*)"
+      "Bash(yarn test:between_sections:*)",
+      "Bash(yarn test:mid_paragraph:*)",
+      "Bash(yarn test:multi_language:*)",
+      "Bash(yarn test:content_type:*)"
     ]
   }
 }

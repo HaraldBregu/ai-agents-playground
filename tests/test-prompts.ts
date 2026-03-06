@@ -744,7 +744,7 @@ export const ALL_TESTS: TestCase[] = [
     category: 'CONTENT_TYPE',
     rawInput: `## Methodology\n\nParticipants (N=247) were recruited through university research panels and screened for eligibility using DSM-5 criteria. The intervention consisted of eight weekly sessions of cognitive behavioral therapy delivered via structured video telehealth. Outcome measures were collected at baseline, four weeks, and eight weeks using validated instruments including the PHQ-9, GAD-7, and the WHO-5 Well-Being Index.\n\n${M}\n\n## Results\n\nAt the eight-week endpoint, participants in the intervention group showed statistically significant improvements across all three outcome measures compared to the waitlist control group.`,
     userInstruction: 'bridge methodology to results',
-    expectedPosition: 'BETWEEN_BLOCKS',
+    expectedPosition: 'BEFORE_HEADING',
     expectedOperation: 'BRIDGE',
     validationChecks: [
       {
