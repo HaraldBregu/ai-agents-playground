@@ -1,280 +1,191 @@
 # Atlas
 
-An intelligent AI writing agent with evaluator feedback loops. Built with LangChain, LangGraph, and OpenAI's GPT-4o model.
+An intelligent AI writing agent built with LangChain, LangGraph, and GPT-4o. Atlas contains two graph-based pipelines: a **Writing Graph** for iterative text continuation with evaluator feedback, and a **Marker Writer Graph** for context-aware text insertion at any position in a document.
 
 ## Features
 
-- **Intelligent Continuation**: Uses GPT-4o to generate seamless text continuations that match the original's tone, style, and voice
-- **Evaluator Feedback Loop**: Automatically evaluates continuations on coherence, style consistency, quality, and flow
-- **Iterative Refinement**: Re-runs the writer with evaluator feedback until quality threshold is met (default score ≥ 7.0)
-- **Configurable Iterations**: Set max iterations to prevent infinite loops (default: 3)
-- **Structured Outputs**: Uses Zod schemas for type-safe, validated LLM responses
-- **Full TypeScript**: Complete type safety throughout the codebase
-- **CLI Interface**: Multiple input methods (direct text, file, interactive mode)
-- **Detailed Logging**: Trace each iteration with prefixed console output
+- **Iterative Writing Loop**: Generates text continuations, evaluates them on coherence/style/quality/flow, and revises until a quality threshold is met
+- **Marker-Based Writing**: Insert a Unicode marker anywhere in a document and Atlas generates contextually appropriate text at that position
+- **Position-Aware Generation**: Detects 12 marker positions (end of text, mid-sentence, between sections, etc.) and adapts the writing strategy accordingly
+- **Style Matching**: Analyzes existing text for tone, rhythm, vocabulary, POV, and tense, then generates text that matches
+- **Structured Outputs**: Zod schemas for type-safe, validated LLM responses
+- **Full TypeScript**: Complete type safety with path aliases
+- **CLI Interface**: Direct text, file input, and interactive mode
 
 ## Architecture
 
-### Graph Flow
+Atlas contains two LangGraph state graphs. See [`docs/GRAPH.md`](docs/GRAPH.md) for detailed node descriptions, state schemas, and routing logic.
+
+### Writing Graph
+
+A write–evaluate–rewrite loop that generates text continuations and iteratively improves them.
 
 ```
 START → writer → evaluator → router
-                                ├─ passed=true → END
-                                ├─ iterations < max → writer (loop)
-                                └─ iterations >= max → END (best attempt)
+                                ├─ passed → formatter → END
+                                ├─ iterations < max → writer (retry)
+                                └─ iterations >= max → formatter → END
 ```
 
-### State Management
+| Node          | Description                                                                               |
+| ------------- | ----------------------------------------------------------------------------------------- |
+| **writer**    | Generates a 200–400 word continuation using GPT-4o. Incorporates evaluator feedback on retries. |
+| **evaluator** | Scores the continuation (0–10) on coherence, style consistency, quality, and flow.        |
+| **formatter** | Lightly polishes the final continuation without altering meaning.                         |
 
-The system maintains full state through the graph:
+### Marker Writer Graph
 
-- `inputText`: Original user text
-- `continuation`: Latest generated continuation
-- `evaluationScore`: Quality score (0-10)
-- `evaluationFeedback`: Improvement suggestions
-- `passed`: Whether evaluation threshold met
-- `iteration`: Current iteration count
-- `history`: Record of all attempts
+A linear pipeline that takes a document with a Unicode marker at the cursor position, analyzes context, plans the writing, generates text, and stitches the result back.
 
-### Nodes
+```
+START → input_parser → intent_analyzer → style_analyzer → planner → writer → stitcher → END
+```
 
-#### Writer Node
+| Node                | Description                                                                                      |
+| ------------------- | ------------------------------------------------------------------------------------------------ |
+| **input_parser**    | Pure logic (no LLM). Finds markers, classifies position, extracts surrounding context.           |
+| **intent_analyzer** | Determines content type, topic, audience, tone, length. Heuristics for simple cases, LLM for complex. |
+| **style_analyzer**  | Profiles the text's tone, rhythm, vocabulary, POV, tense, and patterns.                          |
+| **planner**         | Creates a position-aware writing plan with approach, topics, transitions, and word count target.  |
+| **writer**          | Generates the insertion text using style profile and writing plan.                                |
+| **stitcher**        | Pure logic (no LLM). Assembles the final document with appropriate spacing and separators.       |
 
-- Receives original text and evaluator feedback
-- Generates natural continuation matching style/tone/voice
-- Uses GPT-4o with temperature 0.7 for creativity
-- Produces ~200-400 words (configurable)
+#### Supported Marker Positions
 
-#### Evaluator Node
-
-- Assesses continuation on 4 criteria:
-  - **Coherence**: Logical flow and narrative consistency
-  - **Style Consistency**: Tone and voice match
-  - **Quality**: Engaging, well-crafted writing
-  - **Flow**: Seamless transition from input
-- Uses GPT-4o with temperature 0 for consistency
-- Returns structured output: `{ score, passed, feedback }`
+```
+PATTERN                           DETECTED AS           OPERATION
+──────────────────────────────────────────────────────────────────
+text text text█                   END_OF_TEXT            CONTINUE
+█text text text                   START_OF_TEXT          PREPEND
+text\n\n█\n\ntext                 BETWEEN_BLOCKS         BRIDGE
+text. █Text. text                 MID_PARAGRAPH          BRIDGE
+text word█ word text              MID_SENTENCE           BRIDGE
+## Heading\n█                     AFTER_HEADING          FILL_SECTION
+text\n█\n## Heading               BEFORE_HEADING         BRIDGE
+█                                 EMPTY_DOCUMENT         GENERATE
+text⟨START⟩region⟨END⟩text       REGION_SELECTED        REWRITE_REGION
+```
 
 ## Setup
 
 ### 1. Install Dependencies
 
 ```bash
-npm install
+yarn install
 ```
 
 ### 2. Configure Environment
 
-Create `.env` file:
-
 ```bash
 cp .env.example .env
-# Edit .env and add your OpenAI API key
+# Add your OpenAI API key
 OPENAI_API_KEY=sk-...
 ```
 
 ### 3. Build (Optional)
 
 ```bash
-npm run build
+yarn build
 ```
 
 ## Usage
 
-### Basic Usage
+### Writing Continuation
 
 ```bash
+# Direct input
 npx tsx src/index.ts --input "Your text here..."
-```
 
-### From File
-
-```bash
+# From file
 npx tsx src/index.ts --file input.txt
-```
 
-### Interactive Mode
-
-```bash
+# Interactive mode
 npx tsx src/index.ts --interactive
+
+# With options
+npx tsx src/index.ts --input "Your text..." --max-iterations 5 --verbose
 ```
 
-### With Options
+### Marker Writer
 
 ```bash
-npx tsx src/index.ts \
-  --input "Your text..." \
-  --max-iterations 5 \
-  --verbose
+yarn marker-writer
 ```
 
-### Run Example
+### Run Tests
 
 ```bash
-npm run example
+# All marker writer tests
+yarn test:marker-writer
+
+# By category
+yarn test:basic_position
+yarn test:mid_sentence
+yarn test:between_sections
+yarn test:voice_matching
+
+# Single test
+yarn test:single --test "test name or id"
 ```
-
-## Examples
-
-### Example 1: Suspenseful Fiction
-
-**Input:**
-
-```
-The old lighthouse keeper climbed the spiral staircase as he had done every evening for thirty years. Tonight, however, something was different. The light at the top flickered in a pattern he had never seen before.
-```
-
-**Expected Output:**
-The system will generate a continuation that:
-
-- Maintains the atmospheric, suspenseful tone
-- Continues the narrative coherently
-- Preserves the descriptive, introspective style
-- May iterate if first attempt scores below 7.0
-
-### Example 2: Technical Documentation
-
-**Input:**
-
-```
-The REST API provides endpoints for managing user resources. To create a new user, send a POST request to /api/users with the following JSON payload:
-```
-
-**Expected Output:**
-Continuation will:
-
-- Match the technical, instructional tone
-- Follow proper documentation conventions
-- Provide coherent, relevant technical details
-
-### Example 3: Creative Writing
-
-**Input:**
-
-```
-She opened the ancient book with trembling hands. The pages were yellowed and brittle, and the scent of forgotten centuries rose like incense.
-```
-
-**Expected Output:**
-Continuation will:
-
-- Match the lyrical, poetic tone
-- Maintain narrative immersion
-- Continue the evocative sensory descriptions
 
 ## Configuration
 
-Edit `src/config.ts` to customize:
+Edit `src/config.ts`:
 
 ```typescript
 export const config = {
-  model: 'gpt-4o', // LLM model
-  writerTemperature: 0.7, // Creativity (0-1)
-  evaluatorTemperature: 0, // Determinism (0-1)
-  passThreshold: 7.0, // Passing score
-  maxIterations: 3, // Max attempts
+  model: 'gpt-4o',
+  writerTemperature: 0.7,
+  evaluatorTemperature: 0,
+  formatterTemperature: 0.2,
+  passThreshold: 7.0,
+  maxIterations: 3,
   continuationLength: '200-400 words',
 };
 ```
-
-## Output Example
-
-```
-============================================================
-Atlas
-============================================================
-
-[system] Input text length: 156 characters
-[system] Max iterations: 3
-[system] Starting writing and evaluation loop...
-
-[writer] Iteration 1: Generating continuation...
-[writer] Generated 387 characters of continuation
-[evaluator] Evaluating continuation...
-[evaluator] Score: 8.2/10 | Passed: true
-
-============================================================
-Final Result
-============================================================
-
-ORIGINAL TEXT:
-
-The old lighthouse keeper climbed the spiral staircase...
-
-------------------------------------------------------------
-
-GENERATED CONTINUATION:
-
-He hesitated at the threshold, his weathered hand gripping...
-
-============================================================
-Summary
-============================================================
-Total iterations: 1
-Final evaluation score: 8.2/10
-Evaluation passed: ✓ Yes
-
-============================================================
-```
-
-## Development
-
-### Run with Hot Reload
-
-```bash
-npm run dev
-```
-
-### Type Check
-
-```bash
-npm run type-check
-```
-
-### Build
-
-```bash
-npm run build
-```
-
-### Run Compiled
-
-```bash
-npm start -- --input "Your text..."
-```
-
-## Error Handling
-
-The system handles:
-
-- API failures with informative error messages
-- Rate limiting (respects OpenAI backoff)
-- Malformed LLM responses with Zod validation
-- File read errors
-- Invalid iteration counts
 
 ## Project Structure
 
 ```
 src/
-├── index.ts          # Entry point, CLI interface
-├── graph.ts          # LangGraph definition and compilation
-├── state.ts          # State schema definition
-├── config.ts         # Configuration constants
-└── nodes/
-    ├── writer.ts     # Writer node implementation
-    └── evaluator.ts  # Evaluator node implementation
+├── index.ts                         # Entry point, CLI interface
+├── graph.ts                         # Writing Graph definition
+├── state.ts                         # Writing state schema
+├── config.ts                        # Configuration constants
+├── nodes/
+│   ├── writer.ts                    # Writer node (continuation)
+│   ├── evaluator.ts                 # Evaluator node (scoring)
+│   └── formatter.ts                 # Formatter node (polishing)
+└── marker_writer/
+    ├── index.ts                     # Marker writer entry point
+    ├── graph.ts                     # Marker Writer Graph definition
+    ├── state.ts                     # Marker writer state schema
+    ├── markers.ts                   # Unicode marker definitions
+    ├── types.ts                     # Shared types
+    ├── models.ts                    # LLM model config
+    ├── helpers.ts                   # Utility functions
+    └── nodes/
+        ├── input-parser.ts          # Marker detection & context extraction
+        ├── intent-analyzer.ts       # Content intent analysis
+        ├── style-analyzer.ts        # Style profiling
+        ├── planner.ts               # Writing plan generation
+        ├── writer.ts                # Text generation
+        └── stitcher.ts              # Document assembly
+tests/
+└── test-prompts.ts                  # Integration tests
+docs/
+└── GRAPH.md                         # Detailed graph architecture docs
 ```
 
 ## Dependencies
 
 - `@langchain/openai`: OpenAI LLM integration
+- `@langchain/anthropic`: Anthropic LLM integration
 - `@langchain/core`: Core LangChain types and utilities
 - `@langchain/langgraph`: Graph-based agent orchestration
 - `zod`: Type-safe schema validation
 - `dotenv`: Environment variable management
 - `commander`: CLI argument parsing
-- `typescript`: Type safety
 
 ## Requirements
 
@@ -284,21 +195,3 @@ src/
 ## License
 
 MIT
-
-## Support
-
-For issues or questions:
-
-1. Check the error message and console logs ([writer], [evaluator], [router] prefixes)
-2. Ensure your OpenAI API key is valid
-3. Verify you have access to GPT-4o model
-4. Check your rate limits haven't been exceeded
-
-## Future Enhancements
-
-- [ ] Web UI interface
-- [ ] Streaming output for real-time feedback
-- [ ] Multiple continuation strategies
-- [ ] Custom evaluation criteria
-- [ ] Output formatting (Markdown, HTML)
-- [ ] Batch processing of multiple texts
