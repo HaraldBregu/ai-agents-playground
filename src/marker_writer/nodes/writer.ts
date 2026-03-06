@@ -59,6 +59,20 @@ export async function writerNode(
 
   const model = createWriterModel();
 
+  const retryBlock = state.evaluatorFeedback
+    ? `\n\n       ═══════════════════════════════════════
+       REVISION REQUIRED
+       ═══════════════════════════════════════
+       Your previous attempt was rejected. Fix this:
+       ${state.evaluatorFeedback}`
+    : '';
+
+  const isBridge =
+    p.operationType === 'BRIDGE' || p.operationType === 'PREPEND';
+  const afterInstruction = isBridge
+    ? `\n\nTEXT AFTER MARKER (you MUST flow into this):\n${p.immediateAfter}\n\nCRITICAL: Your final sentence must connect naturally to the text after.`
+    : `\n\nTEXT AFTER MARKER:\n${p.immediateAfter || '(end of document)'}`;
+
   const response = await model.invoke([
     {
       role: 'system' as const,
@@ -98,14 +112,14 @@ export async function writerNode(
        3. A reader must NOT be able to tell where the original
           ends and your writing begins
        4. Match the exact voice — if the original uses contractions, use them
-       5. Stay within ±20% of word target`,
+       5. Stay within ±20% of word target${retryBlock}`,
     },
     {
       role: 'user' as const,
       content:
         `TEXT BEFORE MARKER:\n${p.immediateBefore}\n\n` +
-        `---WRITE HERE---\n\n` +
-        `TEXT AFTER MARKER:\n${p.immediateAfter || '(end of document)'}`,
+        `---WRITE HERE---` +
+        afterInstruction,
     },
   ] as any);
 

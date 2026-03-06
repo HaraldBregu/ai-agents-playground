@@ -169,6 +169,7 @@ export async function inputParserNode(
     }
   } else if (
     textBefore.endsWith('\n\n') ||
+    textAfter.startsWith('\n\n') ||
     (trimmedBefore.endsWith('\n') && trimmedAfter.startsWith('\n'))
   ) {
     const isNextHeading = /^#{1,6}\s+/.test(trimmedAfter);

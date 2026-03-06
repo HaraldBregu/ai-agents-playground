@@ -48,6 +48,10 @@ export const WriterState = Annotation.Root({
   finalDocument: Annotation<string>,
   changeDescription: Annotation<string>,
 
+  // Evaluator
+  evaluatorFeedback: Annotation<string>,
+  retryCount: Annotation<number>,
+
   // Memory
   userPreferences: Annotation<Record<string, string>>({
     reducer: (a, b) => ({ ...a, ...b }),
