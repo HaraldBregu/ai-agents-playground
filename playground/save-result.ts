@@ -9,6 +9,7 @@ export function saveResult(
     messages: { role: string; content: string }[];
     response: string;
     durationMs: number;
+    maxTokens?: number;
   },
 ) {
   const dir = dirname(callerFile);
