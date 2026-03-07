@@ -10,9 +10,7 @@ export async function writerNode(
     temperature: config.writerTemperature,
   });
 
-  const prompt = state.evaluationFeedback
-    ? `Continue this text naturally. Previous feedback: ${state.evaluationFeedback}\n\nText:\n${state.inputText}`
-    : `Continue this text naturally in ${config.continuationLength}:\n\n${state.inputText}`;
+  const prompt = `Continue this text naturally in ${config.continuationLength}:\n\n${state.inputText}`;
 
   const response = await model.invoke([{ role: 'user', content: prompt }]);
   const continuation =
