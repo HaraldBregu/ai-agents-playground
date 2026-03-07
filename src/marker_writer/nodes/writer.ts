@@ -25,7 +25,7 @@ function buildPrompt(state: WriterStateValue): AssembledPrompt {
 
     case 'insert':
       system += '\n- Bridge between the text before and after naturally';
-      user = `Write text to insert between these sections:\n\nBEFORE:\n${context.immediateBefore}\n\nAFTER:\n${context.immediateAfter}`;
+      user = `Write text to insert between these sections:\n\nBEFORE:\n${context.beforeParagraph}\n\nAFTER:\n${context.afterParagraph}`;
       if (structure.currentHeading) {
         user += `\n\nCurrent section: "${structure.currentHeading}"`;
       }
@@ -33,12 +33,16 @@ function buildPrompt(state: WriterStateValue): AssembledPrompt {
 
     case 'rewrite':
       system += '\n- Rewrite the selected text while preserving its meaning';
-      user = `Rewrite this text:\n\n"${cursorInfo.selectedRegion}"\n\nContext before: ${context.lastSentenceBefore}\nContext after: ${context.firstSentenceAfter}`;
+      user = `Rewrite this text:\n\n"${cursorInfo.selectedRegion}"`;
+      user += `\n\nPreceding paragraph:\n${context.beforeParagraph}`;
+      user += `\n\nFollowing paragraph:\n${context.afterParagraph}`;
       break;
 
     case 'expand':
       system += '\n- Expand and enhance the selected text with more detail';
-      user = `Expand this text:\n\n"${cursorInfo.selectedRegion}"\n\nContext before: ${context.lastSentenceBefore}\nContext after: ${context.firstSentenceAfter}`;
+      user = `Expand this text:\n\n"${cursorInfo.selectedRegion}"`;
+      user += `\n\nPreceding paragraph:\n${context.beforeParagraph}`;
+      user += `\n\nFollowing paragraph:\n${context.afterParagraph}`;
       break;
 
     case 'delete':
