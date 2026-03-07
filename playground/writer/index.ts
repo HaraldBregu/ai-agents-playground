@@ -7,10 +7,10 @@ import { parseArgs } from 'util';
 import { createWritingGraph } from '../../src/graph';
 import { saveResult } from '../save-result';
 
-function loadSystemFile(name: string): string {
+function loadFile(folder: string, name: string): string {
   const filePath = name.endsWith('.md') ? name : `${name}.md`;
   return readFileSync(
-    join(dirname(import.meta.filename), 'system', filePath),
+    join(dirname(import.meta.filename), folder, filePath),
     'utf-8',
   ).trim();
 }
