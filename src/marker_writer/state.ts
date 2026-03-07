@@ -1,10 +1,15 @@
 import { Annotation } from '@langchain/langgraph';
-import type { StyleProfile, AssembledPrompt } from '@/marker_writer/types';
+import type {
+  Intent,
+  StyleProfile,
+  AssembledPrompt,
+} from '@/marker_writer/types';
 
 export const WriterState = Annotation.Root({
   rawInput: Annotation<string>,
   userInstruction: Annotation<string>,
 
+  intent: Annotation<Intent>,
   styleProfile: Annotation<StyleProfile>,
   targetLength: Annotation<number>,
   assembledPrompt: Annotation<AssembledPrompt>,
