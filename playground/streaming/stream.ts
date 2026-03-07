@@ -4,7 +4,7 @@ dotenv.config();
 import { ChatOpenAI } from '@langchain/openai';
 
 async function main() {
-  const model = new ChatOpenAI({ model: 'gpt-4o', temperature: 0.7 });
+  const model = new ChatOpenAI({ model: 'gpt-4o', temperature: 0 });
 
   const stream = await model.stream([
     { role: 'user', content: 'Write a short paragraph about the moon.' },
