@@ -11,7 +11,9 @@ async function main() {
   ]);
 
   for await (const chunk of stream) {
-    process.stdout.write(typeof chunk.content === 'string' ? chunk.content : '');
+    process.stdout.write(
+      typeof chunk.content === 'string' ? chunk.content : '',
+    );
   }
   console.log();
 }
