@@ -3,8 +3,55 @@ import {
   createWriterModel,
 } from '@/marker_writer/models';
 import type { WriterStateValue } from '@/marker_writer/state';
-import type { StyleProfile } from '@/marker_writer/types';
+import type { Intent, IntentType, StyleProfile } from '@/marker_writer/types';
 import { countWords } from '@/marker_writer/helpers';
+
+// ─── Intent Classification ─────────────────────────────────
+
+function buildIntentPrompt(text: string, instruction: string): string {
+  let prompt = `Classify the user's writing intent.\n\n`;
+  prompt += `### TEXT\n<text>\n${text}\n</text>\n\n`;
+  prompt += `### USER_INSTRUCTION\n<instruction>\n${instruction}\n</instruction>\n\n`;
+  prompt += `## Instructions\n\n`;
+  prompt += `Based on the USER_INSTRUCTION and TEXT, determine the intent. `;
+  prompt += `Respond with ONLY a JSON object (no markdown fences) with these fields:\n`;
+  prompt += `- "type": one of "continue", "expand", or "rewrite"\n`;
+  prompt += `  - "continue": the user wants new text added after the existing text (e.g. "keep writing", "continue the story", "write the next paragraph")\n`;
+  prompt += `  - "expand": the user wants the existing text made longer or more detailed (e.g. "make this longer", "add more detail", "elaborate on this")\n`;
+  prompt += `  - "rewrite": the user wants the existing text rewritten differently (e.g. "rewrite this", "make it more professional", "change the tone")\n`;
+  prompt += `- "detail": a brief summary of what specifically the user wants`;
+
+  return prompt;
+}
+
+function parseIntentResponse(content: string): Intent {
+  const fallback: Intent = { type: 'continue', detail: '' };
+
+  try {
+    const parsed = JSON.parse(content);
+    const type = ['continue', 'expand', 'rewrite'].includes(parsed.type)
+      ? (parsed.type as IntentType)
+      : 'continue';
+    return { type, detail: parsed.detail || '' };
+  } catch {
+    return fallback;
+  }
+}
+
+async function classifyIntent(
+  text: string,
+  instruction: string,
+): Promise<Intent> {
+  if (!instruction) {
+    return { type: 'continue', detail: '' };
+  }
+
+  const prompt = buildIntentPrompt(text, instruction);
+  const model = createUnderstandingModel();
+  const response = await model.invoke([{ role: 'user', content: prompt }]);
+  const content = typeof response.content === 'string' ? response.content : '';
+  return parseIntentResponse(content);
+}
 
 // ─── Style Analysis ─────────────────────────────────────────
 
@@ -13,8 +60,7 @@ function buildAnalysisPrompt(text: string, targetLength: number): string {
   prompt += `## Inputs\n\n`;
   prompt += `### TEXT\n<text>\n${text}\n</text>\n\n`;
   prompt += `### GENERATION TARGET\n`;
-  prompt += `- Requested length: ${targetLength} words\n`;
-  prompt += `- Action type: CONTINUE\n\n`;
+  prompt += `- Requested length: ${targetLength} words\n\n`;
   prompt += `## Instructions\n\n`;
   prompt += `Based on the TEXT, extract the writing style. `;
   prompt += `Respond with ONLY a JSON object (no markdown fences) with these fields:\n`;
@@ -81,16 +127,42 @@ function formatStyleNotes(style: StyleProfile): string {
 
 function buildWriterPrompt(
   text: string,
+  intent: Intent,
   styleProfile: StyleProfile,
   targetLength: number,
   instruction: string,
 ): { system: string; user: string } {
-  const system =
-    `You are a skilled writer. Generate text that seamlessly continues the given text.\n` +
-    `Rules:\n` +
-    `- Match the tone, style, and vocabulary of the existing text\n` +
-    `- Output ONLY the generated text, no explanations or meta-commentary\n` +
-    `- Target approximately ${targetLength} words`;
+  let systemRules: string;
+
+  switch (intent.type) {
+    case 'continue':
+      systemRules =
+        `You are a skilled writer. Generate text that seamlessly continues the given text.\n` +
+        `Rules:\n` +
+        `- Match the tone, style, and vocabulary of the existing text\n` +
+        `- Output ONLY the generated text, no explanations or meta-commentary\n` +
+        `- Target approximately ${targetLength} words`;
+      break;
+    case 'expand':
+      systemRules =
+        `You are a skilled writer. Expand the given text with more detail and depth.\n` +
+        `Rules:\n` +
+        `- Keep all existing content and meaning intact\n` +
+        `- Add detail, examples, descriptions, or elaboration\n` +
+        `- Match the tone, style, and vocabulary of the existing text\n` +
+        `- Output ONLY the expanded version of the full text, no explanations or meta-commentary\n` +
+        `- Target approximately ${targetLength} words total`;
+      break;
+    case 'rewrite':
+      systemRules =
+        `You are a skilled writer. Rewrite the given text according to the user's instruction.\n` +
+        `Rules:\n` +
+        `- Preserve the core meaning and information\n` +
+        `- Apply the requested changes in tone, style, or structure\n` +
+        `- Output ONLY the rewritten text, no explanations or meta-commentary\n` +
+        `- Keep approximately the same length as the original`;
+      break;
+  }
 
   let user = `## Inputs\n\n`;
 
@@ -103,24 +175,43 @@ function buildWriterPrompt(
 
   user += `### GENERATION TARGET\n`;
   user += `- Requested length: ${targetLength} words\n`;
-  user += `- Action type: CONTINUE\n\n`;
+  user += `- Action type: ${intent.type.toUpperCase()}\n\n`;
 
-  user += `Continue naturally from where the TEXT left off.`;
+  switch (intent.type) {
+    case 'continue':
+      user += `Continue naturally from where the TEXT left off.`;
+      break;
+    case 'expand':
+      user += `Expand the TEXT with more detail and depth.`;
+      break;
+    case 'rewrite':
+      user += `Rewrite the TEXT.`;
+      break;
+  }
 
   if (instruction) {
     user += `\n\nAdditional instruction: ${instruction}`;
   }
 
-  return { system, user };
+  return { system: systemRules, user };
 }
 
 // ─── Node ───────────────────────────────────────────────────
 
-function estimateTargetLength(text: string): number {
+function estimateTargetLength(text: string, intent: Intent): number {
   const existingWords = countWords(text);
-  if (existingWords < 50) return 50;
-  if (existingWords < 200) return 100;
-  return 200;
+
+  switch (intent.type) {
+    case 'expand':
+      return Math.max(existingWords * 2, 100);
+    case 'rewrite':
+      return existingWords;
+    default: {
+      if (existingWords < 50) return 50;
+      if (existingWords < 200) return 100;
+      return 200;
+    }
+  }
 }
 
 export async function writerNode(
@@ -128,7 +219,8 @@ export async function writerNode(
 ): Promise<Partial<WriterStateValue>> {
   const { rawInput, userInstruction } = state;
 
-  const targetLength = estimateTargetLength(rawInput);
+  const intent = await classifyIntent(rawInput, userInstruction);
+  const targetLength = estimateTargetLength(rawInput, intent);
 
   const styleProfile: StyleProfile = rawInput
     ? await analyzeStyle(rawInput, targetLength)
@@ -143,6 +235,7 @@ export async function writerNode(
 
   const prompt = buildWriterPrompt(
     rawInput,
+    intent,
     styleProfile,
     targetLength,
     userInstruction,
@@ -157,11 +250,15 @@ export async function writerNode(
   const generatedText =
     typeof response.content === 'string' ? response.content.trim() : '';
 
+  const finalDocument =
+    intent.type === 'continue' ? rawInput + generatedText : generatedText;
+
   return {
+    intent,
     styleProfile,
     targetLength,
     assembledPrompt: prompt,
     generatedText,
-    finalDocument: rawInput + generatedText,
+    finalDocument,
   };
 }
