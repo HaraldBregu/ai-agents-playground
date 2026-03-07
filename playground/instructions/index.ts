@@ -1,6 +1,8 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+import { readFileSync } from 'fs';
+import { join, dirname } from 'path';
 import { parseArgs } from 'util';
 import { ChatOpenAI } from '@langchain/openai';
 import { saveResult } from '../save-result';
