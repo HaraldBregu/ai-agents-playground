@@ -34,10 +34,7 @@ async function runWritingAgent(inputText: string): Promise<void> {
   }
 }
 
-program
-  .name('atlas')
-  .description('AI writing agent')
-  .version('1.0.0');
+program.name('atlas').description('AI writing agent').version('1.0.0');
 
 program
   .option('--input <text>', 'Input text to continue')
