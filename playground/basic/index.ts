@@ -27,10 +27,21 @@ async function main() {
   messages.push({ role: 'user', content: prompt });
 
   const model = new ChatOpenAI({ model: modelName, temperature });
-  const response = await model.invoke(messages);
-  const content = typeof response.content === 'string' ? response.content : '';
 
-  console.log(content);
+  let content = '';
+  if (values.stream) {
+    const stream = await model.stream(messages);
+    for await (const chunk of stream) {
+      const text = typeof chunk.content === 'string' ? chunk.content : '';
+      process.stdout.write(text);
+      content += text;
+    }
+    console.log();
+  } else {
+    const response = await model.invoke(messages);
+    content = typeof response.content === 'string' ? response.content : '';
+    console.log(content);
+  }
 
   saveResult(import.meta.filename, {
     model: modelName,
