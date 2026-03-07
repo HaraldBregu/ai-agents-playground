@@ -5,7 +5,10 @@ import { program } from 'commander';
 import { readFileSync } from 'fs';
 import { createWritingGraph } from '@/graph';
 
-async function runWritingAgent(inputText: string): Promise<void> {
+async function runWritingAgent(
+  inputText: string,
+  instruction: string,
+): Promise<void> {
   console.log('\n' + '='.repeat(60));
   console.log('Atlas');
   console.log('='.repeat(60) + '\n');
@@ -15,16 +18,22 @@ async function runWritingAgent(inputText: string): Promise<void> {
   console.log(`[system] Input text length: ${inputText.length} characters\n`);
 
   try {
-    const result = await graph.invoke({ inputText: inputText.trim() });
+    const result = await graph.invoke(
+      {
+        inputText: inputText.trim(),
+        instruction,
+      },
+      { configurable: { thread_id: 'main' } },
+    );
 
     console.log('ORIGINAL TEXT:\n');
     console.log(result.inputText);
     console.log('\n' + '-'.repeat(60) + '\n');
-    console.log('GENERATED CONTINUATION:\n');
-    console.log(result.continuation);
+    console.log('GENERATED TEXT:\n');
+    console.log(result.generatedText);
     console.log('\n' + '='.repeat(60) + '\n');
   } catch (error) {
-    console.error('\n[error] Failed to generate continuation:');
+    console.error('\n[error] Failed to generate text:');
     if (error instanceof Error) {
       console.error(error.message);
     } else {
@@ -38,7 +47,8 @@ program.name('atlas').description('AI writing agent').version('1.0.0');
 
 program
   .option('--input <text>', 'Input text to continue')
-  .option('--file <path>', 'Read input from file');
+  .option('--file <path>', 'Read input from file')
+  .option('--instruction <text>', 'Instruction for the writer');
 
 program.parse();
 
@@ -46,6 +56,7 @@ const options = program.opts();
 
 async function main(): Promise<void> {
   let inputText: string | null = null;
+  const instruction = (options.instruction as string) || '';
 
   if (options.input) {
     inputText = options.input as string;
@@ -61,11 +72,14 @@ async function main(): Promise<void> {
     console.log('\nExamples:');
     console.log('  npx tsx src/index.ts --input "Your text here..."');
     console.log('  npx tsx src/index.ts --file input.txt');
+    console.log(
+      '  npx tsx src/index.ts --input "Your text" --instruction "keep writing"',
+    );
     process.exit(1);
   }
 
   if (inputText) {
-    await runWritingAgent(inputText);
+    await runWritingAgent(inputText, instruction);
   }
 }
 
