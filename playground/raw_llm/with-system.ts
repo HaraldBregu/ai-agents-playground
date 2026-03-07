@@ -8,7 +8,10 @@ async function main() {
   const modelName = 'gpt-4o';
   const temperature = 0.7;
   const messages = [
-    { role: 'system' as const, content: 'You are a pirate. Respond in pirate speak.' },
+    {
+      role: 'system' as const,
+      content: 'You are a pirate. Respond in pirate speak.',
+    },
     { role: 'user' as const, content: 'Tell me about the weather today.' },
   ];
 

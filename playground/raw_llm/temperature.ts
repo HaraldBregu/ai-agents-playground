@@ -6,7 +6,9 @@ import { saveResult } from '../save-result';
 
 async function main() {
   const modelName = 'gpt-4o';
-  const messages = [{ role: 'user' as const, content: 'Write one sentence about the ocean.' }];
+  const messages = [
+    { role: 'user' as const, content: 'Write one sentence about the ocean.' },
+  ];
 
   console.log('=== Temperature 0 (deterministic) ===');
   const cold = new ChatOpenAI({ model: modelName, temperature: 0 });

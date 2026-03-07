@@ -8,7 +8,10 @@ async function main() {
   const modelName = 'gpt-4o';
   const temperature = 0.7;
   const messages = [
-    { role: 'user' as const, content: 'Write a short paragraph about the moon.' },
+    {
+      role: 'user' as const,
+      content: 'Write a short paragraph about the moon.',
+    },
   ];
 
   const model = new ChatOpenAI({ model: modelName, temperature });

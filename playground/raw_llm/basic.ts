@@ -7,7 +7,9 @@ import { saveResult } from '../save-result';
 async function main() {
   const modelName = 'gpt-4o';
   const temperature = 0.7;
-  const messages = [{ role: 'user' as const, content: 'Say hello in one sentence.' }];
+  const messages = [
+    { role: 'user' as const, content: 'Say hello in one sentence.' },
+  ];
 
   const model = new ChatOpenAI({ model: modelName, temperature });
   const response = await model.invoke(messages);

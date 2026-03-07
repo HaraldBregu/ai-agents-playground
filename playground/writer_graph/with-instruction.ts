@@ -21,7 +21,9 @@ async function main() {
   saveResult(import.meta.filename, {
     model: 'gpt-4o',
     temperature: 0.7,
-    messages: [{ role: 'user', content: `${inputText}\n\nInstruction: ${instruction}` }],
+    messages: [
+      { role: 'user', content: `${inputText}\n\nInstruction: ${instruction}` },
+    ],
     response: result.generatedText,
   });
 }

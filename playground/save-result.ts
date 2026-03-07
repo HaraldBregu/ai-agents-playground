@@ -1,4 +1,4 @@
-import { writeFileSync } from 'fs';
+import { mkdirSync, writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 
 export function saveResult(
@@ -11,24 +11,32 @@ export function saveResult(
   },
 ) {
   const dir = dirname(callerFile);
+  const resultsDir = join(dir, 'results');
+  mkdirSync(resultsDir, { recursive: true });
+
   const name = callerFile.replace(/\.ts$/, '').split('/').pop()!;
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-  const filePath = join(dir, `${name}_${timestamp}.json`);
+  const filePath = join(resultsDir, `${name}_${timestamp}.md`);
 
-  writeFileSync(
-    filePath,
-    JSON.stringify(
-      {
-        timestamp: new Date().toISOString(),
-        model: data.model,
-        temperature: data.temperature,
-        messages: data.messages,
-        response: data.response,
-      },
-      null,
-      2,
-    ),
-  );
+  const messages = data.messages
+    .map((m) => `**${m.role}:** ${m.content}`)
+    .join('\n\n');
 
+  const content = `# Result: ${name}
+
+**Timestamp:** ${new Date().toISOString()}
+**Model:** ${data.model}
+**Temperature:** ${data.temperature}
+
+## Messages
+
+${messages}
+
+## Response
+
+${data.response}
+`;
+
+  writeFileSync(filePath, content);
   console.log(`\nSaved to ${filePath}`);
 }
