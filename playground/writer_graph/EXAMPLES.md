@@ -5,11 +5,11 @@ Test the writer graph (`__start__ → writer → __end__`).
 ## Continue from text
 
 ```bash
-yarn playground:graph:continue
+npx tsx playground/writer_graph/continue.ts
 ```
 
 ## With instruction
 
 ```bash
-yarn playground:graph:with-instruction
+npx tsx playground/writer_graph/with-instruction.ts
 ```
