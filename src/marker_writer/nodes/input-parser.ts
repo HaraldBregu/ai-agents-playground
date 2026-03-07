@@ -262,9 +262,7 @@ export async function inputParserNode(
       targetLength,
     );
     const model = createUnderstandingModel();
-    const response = await model.invoke([
-      { role: 'user', content: prompt },
-    ]);
+    const response = await model.invoke([{ role: 'user', content: prompt }]);
     const content =
       typeof response.content === 'string' ? response.content : '';
     styleProfile = parseStyleResponse(content);

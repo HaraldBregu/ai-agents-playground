@@ -80,3 +80,6 @@ yarn example:inline              # run inline instruction examples
 | Two `$MARKER` | `U+E000…U+E000` | Inline instruction between markers  |
 
 For rewrite, expand, and delete operations, use the paired markers defined in `src/marker_writer/markers.ts`.
+
+
+The city had changed in ways no one expected. Buildings that once stood tall now leaned awkwardly against the sky, their facades cracked like ancient pottery. People still walked the streets, but their steps carried a different weight.
