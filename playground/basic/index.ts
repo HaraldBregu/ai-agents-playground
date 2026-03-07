@@ -55,6 +55,7 @@ async function main() {
     messages,
     response: content,
     durationMs: Date.now() - start,
+    maxTokens,
   });
 }
 
