@@ -1,7 +1,5 @@
 import type { MarkerName } from '@/marker_writer/markers';
 
-// ─── Layer 1 Types ───────────────────────────────────────────
-
 export type MarkerPosition =
   | 'END_OF_TEXT'
   | 'START_OF_TEXT'
@@ -44,19 +42,6 @@ export interface DocumentState {
   position: MarkerPosition;
 }
 
-// ─── Layer 2 Types ───────────────────────────────────────────
-
-export interface Context {
-  immediateBefore: string;
-  immediateAfter: string;
-  beforeParagraph: string;
-  afterParagraph: string;
-  lastSentenceBefore: string;
-  firstSentenceAfter: string;
-  isInsideParagraph: boolean;
-  isInsideSentence: boolean;
-}
-
 export interface StyleProfile {
   tense: string;
   pointOfView: string;
@@ -66,22 +51,10 @@ export interface StyleProfile {
   notablePatterns: string[];
 }
 
-export interface Structure {
-  currentHeading: string;
-  previousHeading: string;
-  nextHeading: string;
-  isAfterHeading: boolean;
-  isBeforeHeading: boolean;
-}
-
-// ─── Layer 3 Types ───────────────────────────────────────────
-
 export interface AssembledPrompt {
   system: string;
   user: string;
 }
-
-// ─── Layer 5 Types ───────────────────────────────────────────
 
 export interface DiffInfo {
   type: 'insert' | 'replace' | 'delete' | 'generate';
