@@ -1,6 +1,6 @@
 import { StateGraph, MemorySaver } from '@langchain/langgraph';
-import { WriterState } from '@/marker_writer/state';
-import { writerNode } from '@/marker_writer/nodes/writer';
+import { WriterState } from '@/state';
+import { writerNode } from '@/nodes/writer';
 
 export function createWritingGraph() {
   const graph = new StateGraph(WriterState)
