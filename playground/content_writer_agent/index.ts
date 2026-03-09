@@ -31,6 +31,7 @@ async function main() {
   saveResult(import.meta.filename, {
     model: 'gpt-4o-mini',
     temperature: 0.7,
+    messages: [{ role: 'user', content: input }],
     response: completion,
     durationMs: Date.now() - start,
   });
