@@ -37,3 +37,15 @@ npx tsx playground/text_continuation/index.ts --input "After months of searching
 
 npx tsx playground/text_continuation/index.ts --input "The difference between a good engineer and a great one comes down to"
 ```
+
+## Long input with unfinished sentence
+
+```bash
+npx tsx playground/text_continuation/index.ts --input "For centuries, the deep ocean remained one of the last unexplored frontiers on Earth. Early sailors feared what lurked beneath the waves, imagining sea monsters and bottomless trenches. It wasn't until the invention of modern submersibles that scientists could finally descend to the ocean floor, where they discovered"
+
+npx tsx playground/text_continuation/index.ts --input "The city of Vienna had long been the cultural heart of Europe. Composers like Mozart, Beethoven, and Strauss had walked its cobblestone streets. Its coffee houses had hosted philosophers, poets, and revolutionaries alike. But by the early 20th century, a new generation of thinkers was emerging — one that would challenge everything the old world had"
+
+npx tsx playground/text_continuation/index.ts --input "Machine learning models have become remarkably good at pattern recognition. They can identify faces in photos, translate languages in real time, and even generate realistic images from text descriptions. Yet despite these advances, there remains a fundamental gap between what these systems can do and what we would consider true understanding, because"
+
+npx tsx playground/text_continuation/index.ts --input "Growing up in a small farming town, Maria never imagined she would end up leading a research team at one of the world's top universities. Her parents worked long hours in the fields and could barely afford school supplies. But her math teacher saw something in her — a quiet persistence, a hunger for problems that didn't have easy answers — and encouraged her to"
+```
