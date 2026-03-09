@@ -4,28 +4,23 @@ LangGraph pipeline that routes by `--type` to a specific writer node. Defaults t
 
 ## Continue Writing
 
-Default length is `short` (1–2 sentences). Use `--length` / `-l` to control output length.
+Default length is `short` (10–15 words). Use `--length` / `-l` to control output length: `short` or `long` (25–30 words).
 
 ```bash
-# short (default)
+# short (default, 10–15 words)
 npx tsx playground/content_writer_agent/index.ts -i "The Roman Empire fell in 476 AD."
 npx tsx playground/content_writer_agent/index.ts -i "The tele"
 npx tsx playground/content_writer_agent/index.ts -i "She opened the door and"
 npx tsx playground/content_writer_agent/index.ts -i "Il caffè era ancora caldo sul tavolo."
+npx tsx playground/content_writer_agent/index.ts -i "Coffee originated in Ethiopia."
+npx tsx playground/content_writer_agent/index.ts -i "The reason most startups fail is not because they lack funding, but because"
 
-# 10 words
-npx tsx playground/content_writer_agent/index.ts -i "Coffee originated in Ethiopia." -l 10_words
-npx tsx playground/content_writer_agent/index.ts -i "The reason most startups fail is not because they lack funding, but because" -l 10_words
-
-# 2 sentences
-npx tsx playground/content_writer_agent/index.ts -i "Leonardo da Vinci was not only a painter but also an inventor, scientist, and engineer." -l 2_sentences
-
-# 3 sentences
-npx tsx playground/content_writer_agent/index.ts -i "The first computers filled entire rooms and consumed enormous amounts of electricity." -l 3_sentences
-
-# 10 sentences
-npx tsx playground/content_writer_agent/index.ts -i "For centuries, the deep ocean remained one of the last unexplored frontiers on Earth." -l 10_sentences
-npx tsx playground/content_writer_agent/index.ts -i "In 1969, humans landed on the Moon for the first time." -l 10_sentences
+# long (25–30 words)
+npx tsx playground/content_writer_agent/index.ts -i "The Roman Empire fell in 476 AD." -l long
+npx tsx playground/content_writer_agent/index.ts -i "Leonardo da Vinci was not only a painter but also an inventor, scientist, and engineer." -l long
+npx tsx playground/content_writer_agent/index.ts -i "The first computers filled entire rooms and consumed enormous amounts of electricity." -l long
+npx tsx playground/content_writer_agent/index.ts -i "For centuries, the deep ocean remained one of the last unexplored frontiers on Earth." -l long
+npx tsx playground/content_writer_agent/index.ts -i "In 1969, humans landed on the Moon for the first time." -l long
 ```
 
 ## Suggestion Next
