@@ -31,21 +31,6 @@ Your job is to improve and enhance the user's text while preserving its original
 - Do not add new information or ideas that weren't in the original.
 `;
 
-const lightEnhancementPrompt = `
-# Enhancement level
-Apply minimal changes. Fix only clear errors and make small improvements to word choice and flow. Keep the text as close to the original as possible.
-`;
-
-const moderateEnhancementPrompt = `
-# Enhancement level
-Apply moderate improvements. Fix errors, improve sentence structure, strengthen word choice, and smooth transitions. The text should feel noticeably polished while retaining its original voice.
-`;
-
-const heavyEnhancementPrompt = `
-# Enhancement level
-Apply thorough improvements. Restructure sentences for maximum clarity and impact, elevate vocabulary, eliminate all redundancy, and ensure professional-grade prose. The meaning must remain the same, but the quality should be significantly elevated.
-`;
-
 export async function enhanceContentNode(
   state: typeof EnhancerState.State,
 ): Promise<Partial<typeof EnhancerState.State>> {
@@ -54,26 +39,10 @@ export async function enhanceContentNode(
     temperature: 0.7,
   });
 
-  const messages: { role: 'system' | 'user'; content: string }[] = [];
-
-  messages.push({ role: 'system', content: systemPrompt });
-
-  switch (state.enhancementLevel) {
-    case 'light':
-      messages.push({ role: 'system', content: lightEnhancementPrompt });
-      break;
-    case 'moderate':
-      messages.push({ role: 'system', content: moderateEnhancementPrompt });
-      break;
-    case 'heavy':
-      messages.push({ role: 'system', content: heavyEnhancementPrompt });
-      break;
-  }
-
-  messages.push({
-    role: 'user',
-    content: `<content>${state.content}</content>`,
-  });
+  const messages: { role: 'system' | 'user'; content: string }[] = [
+    { role: 'system', content: systemPrompt },
+    { role: 'user', content: `<content>${state.content}</content>` },
+  ];
 
   const response = await model.invoke(messages);
 
