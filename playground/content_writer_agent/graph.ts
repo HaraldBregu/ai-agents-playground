@@ -1,20 +1,15 @@
 import { Annotation, StateGraph } from '@langchain/langgraph';
-import { intentNode } from './nodes/intent/intent-node';
 import { continueWritingNode } from './nodes/continue_writing/continue-writing-node';
-import { continueWritingNewParagraphNode } from './nodes/continue_writing_new_paragraph/continue-writing-new-paragraph-node';
-import { createNewSectionNode } from './nodes/create_new_section/create-new-section-node';
-import { summarizeNode } from './nodes/summarize/summarize-node';
-import { rewriteNode } from './nodes/rewrite/rewrite-node';
-import { expandNode } from './nodes/expand/expand-node';
+import { suggestionNextNode } from './nodes/suggestion_next/suggestion-next-node';
 
 export const WriterState = Annotation.Root({
   inputText: Annotation<string>({
     reducer: (_a, b) => b,
     default: () => '',
   }),
-  intent: Annotation<string>({
+  type: Annotation<string>({
     reducer: (_a, b) => b,
-    default: () => '',
+    default: () => 'continue_writing',
   }),
   content: Annotation<string>({
     reducer: (_a, b) => b,
@@ -30,43 +25,25 @@ export const WriterState = Annotation.Root({
   }),
 });
 
-function routeByIntent(state: typeof WriterState.State): string {
+function routeByType(state: typeof WriterState.State): string {
   const routes: Record<string, string> = {
     continue_writing: 'continue_writing',
-    continue_writing_new_paragraph: 'continue_writing_new_paragraph',
-    create_new_section: 'create_new_section',
-    summarize: 'summarize',
-    rewrite: 'rewrite',
-    expand: 'expand',
+    suggestion_next: 'suggestion_next',
   };
 
-  return routes[state.intent] ?? 'continue_writing';
+  return routes[state.type] ?? 'continue_writing';
 }
 
 export function createWriterGraph() {
   const graph = new StateGraph(WriterState)
-    .addNode('intent_resolver', intentNode)
     .addNode('continue_writing', continueWritingNode)
-    .addNode('continue_writing_new_paragraph', continueWritingNewParagraphNode)
-    .addNode('create_new_section', createNewSectionNode)
-    .addNode('summarize', summarizeNode)
-    .addNode('rewrite', rewriteNode)
-    .addNode('expand', expandNode)
-    .addEdge('__start__', 'intent_resolver')
-    .addConditionalEdges('intent_resolver', routeByIntent, [
+    .addNode('suggestion_next', suggestionNextNode)
+    .addConditionalEdges('__start__', routeByType, [
       'continue_writing',
-      'continue_writing_new_paragraph',
-      'create_new_section',
-      'summarize',
-      'rewrite',
-      'expand',
+      'suggestion_next',
     ])
     .addEdge('continue_writing', '__end__')
-    .addEdge('continue_writing_new_paragraph', '__end__')
-    .addEdge('create_new_section', '__end__')
-    .addEdge('summarize', '__end__')
-    .addEdge('rewrite', '__end__')
-    .addEdge('expand', '__end__');
+    .addEdge('suggestion_next', '__end__');
 
   return graph.compile();
 }
