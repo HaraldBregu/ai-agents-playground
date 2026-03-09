@@ -1,77 +1,21 @@
 # Content Writer Agent Examples
 
-LangGraph pipeline with an intent resolver and a writer node. The intent node analyzes what the user wants, then the writer executes it.
+LangGraph pipeline that routes by `--type` to a specific writer node. Defaults to `continue_writing` when no type is specified.
 
-## Intent: Continue writing with constraints
+## Continue Writing
 
 ```bash
-npx tsx playground/content_writer_agent/index.ts --input "The history of coffee is fascinating. Continue writing 10 more words maximum."
-npx tsx playground/content_writer_agent/index.ts --input "Artificial intelligence is transforming healthcare. Continue writing one short paragraph."
-npx tsx playground/content_writer_agent/index.ts --input "The Roman Empire fell in 476 AD. Continue writing 3 sentences."
+npx tsx playground/content_writer_agent/index.ts --input "The Roman Empire fell in 476 AD."
+npx tsx playground/content_writer_agent/index.ts -i "The tele" -t continue_writing
+npx tsx playground/content_writer_agent/index.ts -i "Coffee originated in Ethiopia."
+npx tsx playground/content_writer_agent/index.ts -i "She opened the door and"
+npx tsx playground/content_writer_agent/index.ts -i "Il caffè era ancora caldo sul tavolo."
 ```
 
-## Intent: Continue writing new paragraph
+## Suggestion Next
 
 ```bash
-npx tsx playground/content_writer_agent/index.ts --input "The first computers filled entire rooms and consumed enormous amounts of electricity. They were operated by teams of engineers who fed instructions through punch cards. Start a new paragraph about modern computing."
-npx tsx playground/content_writer_agent/index.ts --input "Leonardo da Vinci was not only a painter but also an inventor, scientist, and engineer. His notebooks reveal a mind centuries ahead of its time. Write a new paragraph about his inventions."
-```
-
-## Intent: Create new section
-
-```bash
-npx tsx playground/content_writer_agent/index.ts --input "React is a JavaScript library for building user interfaces. It uses a virtual DOM to efficiently update the real DOM. Create a new section about React hooks."
-npx tsx playground/content_writer_agent/index.ts --input "Python is known for its simplicity and readability. It has become the go-to language for data science and machine learning. Create a new section about Python libraries."
-```
-
-## Intent: Summarize
-
-```bash
-npx tsx playground/content_writer_agent/index.ts --input "Summarize this: The Industrial Revolution, which began in Britain in the late 18th century, was a period of great change. It saw the transition from hand production methods to machines, new chemical manufacturing and iron production processes, the increasing use of steam power and water power, the development of machine tools, and the rise of the mechanized factory system. The revolution also led to an unprecedented rise in population and urbanization."
-npx tsx playground/content_writer_agent/index.ts --input "Summarize in 2 sentences: Machine learning models have become remarkably good at pattern recognition. They can identify faces in photos, translate languages in real time, and even generate realistic images from text descriptions. Yet despite these advances, there remains a fundamental gap between what these systems can do and what we would consider true understanding."
-```
-
-## Intent: Rewrite
-
-```bash
-npx tsx playground/content_writer_agent/index.ts --input "Rewrite this more professionally: So basically the thing is that our app is kinda slow and users are complaining a lot about it. We gotta fix it ASAP or we're gonna lose customers."
-npx tsx playground/content_writer_agent/index.ts --input "Rewrite in a simpler way: The epistemological ramifications of quantum mechanical observations necessitate a fundamental reconceptualization of our ontological frameworks."
-```
-
-## Intent: Expand
-
-```bash
-npx tsx playground/content_writer_agent/index.ts --input "Expand this: TypeScript adds static typing to JavaScript."
-npx tsx playground/content_writer_agent/index.ts --stream --input "Expand with more detail: The Mediterranean diet is considered one of the healthiest in the world."
-```
-
-## Ambiguous intent (should default to continue_writing)
-
-```bash
-npx tsx playground/content_writer_agent/index.ts --input "The tele"
-npx tsx playground/content_writer_agent/index.ts --input "She opened the door and"
-npx tsx playground/content_writer_agent/index.ts --input "The ship had been drifting for three days."
-npx tsx playground/content_writer_agent/index.ts --input "Coffee originated in Ethiopia."
-npx tsx playground/content_writer_agent/index.ts --input "The reason most startups fail is not because they lack funding, but because"
-npx tsx playground/content_writer_agent/index.ts --input "For centuries, the deep ocean remained one of the last unexplored frontiers on Earth. Early sailors feared what lurked beneath the waves, imagining sea monsters and bottomless trenches."
-```
-
-## No explicit action — just raw text
-
-```bash
-npx tsx playground/content_writer_agent/index.ts --input "Quantum computing"
-npx tsx playground/content_writer_agent/index.ts --input "The smell of fresh bread"
-npx tsx playground/content_writer_agent/index.ts --input "In 1969, humans landed on the Moon for the first time."
-npx tsx playground/content_writer_agent/index.ts --input "Il caffè era ancora caldo sul tavolo."
-npx tsx playground/content_writer_agent/index.ts --input "La differenza tra un buon programmatore e uno eccellente sta nella"
-```
-
-## Vague or implicit instructions
-
-```bash
-npx tsx playground/content_writer_agent/index.ts --input "Tell me more about the history of the internet."
-npx tsx playground/content_writer_agent/index.ts --input "Make this better: The weather was bad and everyone felt sad."
-npx tsx playground/content_writer_agent/index.ts --input "Can you improve this? The project failed due to poor management."
-npx tsx playground/content_writer_agent/index.ts --input "Fix this: Their going to the store to by some milk."
-npx tsx playground/content_writer_agent/index.ts --input "What else can be said about renewable energy sources?"
+npx tsx playground/content_writer_agent/index.ts -i "The Roman Empire fell in 476 AD." -t suggestion_next
+npx tsx playground/content_writer_agent/index.ts -i "Quantum computing is still in its early stages." -t suggestion_next
+npx tsx playground/content_writer_agent/index.ts -i "La differenza tra un buon programmatore e uno eccellente sta nella" -t suggestion_next
 ```
