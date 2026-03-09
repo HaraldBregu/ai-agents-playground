@@ -29,7 +29,7 @@ async function main() {
     inputText: input,
     type,
     content: input,
-    contentLength,
+    contentLength: contentLength as "short" | "medium" | "long",
   });
   const completion = result.completion;
 
