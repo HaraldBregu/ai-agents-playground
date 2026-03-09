@@ -1,11 +1,11 @@
 import { Annotation, StateGraph } from '@langchain/langgraph';
-import { intentNode } from './nodes/intent-node';
-import { continueWritingNode } from './nodes/continue-writing-node';
-import { continueWritingNewParagraphNode } from './nodes/continue-writing-new-paragraph-node';
-import { createNewSectionNode } from './nodes/create-new-section-node';
-import { summarizeNode } from './nodes/summarize-node';
-import { rewriteNode } from './nodes/rewrite-node';
-import { expandNode } from './nodes/expand-node';
+import { intentNode } from './nodes/intent/intent-node';
+import { continueWritingNode } from './nodes/continue_writing/continue-writing-node';
+import { continueWritingNewParagraphNode } from './nodes/continue_writing_new_paragraph/continue-writing-new-paragraph-node';
+import { createNewSectionNode } from './nodes/create_new_section/create-new-section-node';
+import { summarizeNode } from './nodes/summarize/summarize-node';
+import { rewriteNode } from './nodes/rewrite/rewrite-node';
+import { expandNode } from './nodes/expand/expand-node';
 
 export const WriterState = Annotation.Root({
   inputText: Annotation<string>({
