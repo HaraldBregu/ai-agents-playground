@@ -15,7 +15,11 @@ const ContinuationState = Annotation.Root({
 async function writerNode(
   state: typeof ContinuationState.State,
 ): Promise<Partial<typeof ContinuationState.State>> {
-  const model = new ChatOpenAI({ model: 'gpt-4o', temperature: 0.7 });
+  const model = new ChatOpenAI({
+    model: 'gpt-4o',
+    temperature: 0.7,
+    maxTokens: 10,
+  });
 
   const response = await model.invoke([
     {
