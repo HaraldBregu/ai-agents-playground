@@ -4,7 +4,7 @@ LangGraph pipeline that routes by `--type` to a specific writer node. Defaults t
 
 ## Continue Writing
 
-Default length is `short` (10–15 words). Use `--length` / `-l` to control output length: `short` or `long` (25–30 words).
+Default length is `short` (10–15 words). Use `--length` / `-l` to control output length: `short`, `medium`, or `long`.
 
 ```bash
 # short (default, 10–15 words)
@@ -15,25 +15,17 @@ npx tsx playground/content_writer_agent/index.ts -i "Il caffè era ancora caldo 
 npx tsx playground/content_writer_agent/index.ts -i "Coffee originated in Ethiopia."
 npx tsx playground/content_writer_agent/index.ts -i "The reason most startups fail is not because they lack funding, but because"
 
-# long (25–30 words)
+# medium (25–30 words)
+npx tsx playground/content_writer_agent/index.ts -i "The Roman Empire fell in 476 AD." -l medium
+npx tsx playground/content_writer_agent/index.ts -i "Leonardo da Vinci was not only a painter but also an inventor, scientist, and engineer." -l medium
+npx tsx playground/content_writer_agent/index.ts -i "The first computers filled entire rooms and consumed enormous amounts of electricity." -l medium
+npx tsx playground/content_writer_agent/index.ts -i "Il treno era in ritardo e la stazione era quasi deserta." -l medium
+
+# long (50–60 words)
 npx tsx playground/content_writer_agent/index.ts -i "The Roman Empire fell in 476 AD." -l long
-npx tsx playground/content_writer_agent/index.ts -i "Leonardo da Vinci was not only a painter but also an inventor, scientist, and engineer." -l long
-npx tsx playground/content_writer_agent/index.ts -i "The first computers filled entire rooms and consumed enormous amounts of electricity." -l long
 npx tsx playground/content_writer_agent/index.ts -i "For centuries, the deep ocean remained one of the last unexplored frontiers on Earth." -l long
 npx tsx playground/content_writer_agent/index.ts -i "In 1969, humans landed on the Moon for the first time." -l long
+npx tsx playground/content_writer_agent/index.ts -i "Die Geschichte der Berliner Mauer begann im August 1961." -l long
+npx tsx playground/content_writer_agent/index.ts -i "La révolution française a profondément changé la société européenne." -l long
 ```
 
-## Suggestion Next
-
-```bash
-npx tsx playground/content_writer_agent/index.ts -i "The Roman Empire fell in 476 AD." -t suggestion_next
-npx tsx playground/content_writer_agent/index.ts -i "Quantum computing is still in its early stages." -t suggestion_next
-npx tsx playground/content_writer_agent/index.ts -i "She opened the door and" -t suggestion_next
-npx tsx playground/content_writer_agent/index.ts -i "The smell of fresh bread reminded him of" -t suggestion_next
-npx tsx playground/content_writer_agent/index.ts -i "Artificial intelligence will transform the way we" -t suggestion_next
-npx tsx playground/content_writer_agent/index.ts -i "La differenza tra un buon programmatore e uno eccellente sta nella" -t suggestion_next
-npx tsx playground/content_writer_agent/index.ts -i "Il treno era in ritardo e la stazione era quasi deserta." -t suggestion_next
-npx tsx playground/content_writer_agent/index.ts -i "Die Geschichte der Berliner Mauer begann im August 1961." -t suggestion_next
-npx tsx playground/content_writer_agent/index.ts -i "La révolution française a profondément changé la société européenne." -t suggestion_next
-npx tsx playground/content_writer_agent/index.ts -i "El descubrimiento de América en 1492 transformó el comercio mundial." -t suggestion_next
-```
