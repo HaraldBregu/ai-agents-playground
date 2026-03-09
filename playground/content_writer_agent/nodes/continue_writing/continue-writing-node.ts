@@ -12,6 +12,10 @@ const systemPrompt = readFileSync(
 
 const lengthPrompts: Record<string, string> = {
   short: readFileSync(join(__dirname, 'SHORT_CONTINUATION.md'), 'utf-8').trim(),
+  medium: readFileSync(
+    join(__dirname, 'MEDIUM_CONTINUATION.md'),
+    'utf-8',
+  ).trim(),
   long: readFileSync(join(__dirname, 'LONG_CONTINUATION.md'), 'utf-8').trim(),
 };
 
