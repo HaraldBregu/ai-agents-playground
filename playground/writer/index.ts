@@ -4,7 +4,7 @@ dotenv.config();
 import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { parseArgs } from 'util';
-import { createWritingGraph } from '../../src/graph';
+import { createWritingGraph } from './graph';
 import { saveResult } from '../save-result';
 
 function loadFile(folder: string, name: string): string {
