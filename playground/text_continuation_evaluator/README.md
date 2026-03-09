@@ -1,9 +1,12 @@
-# Text Continuation Examples
+# Text Continuation Evaluator Examples
 
-LangGraph pipeline with a single writer node that generates a 200-400 word continuation of the input text.
+LangGraph pipeline with a writer and evaluator node. The writer generates a continuation and the evaluator scores it, retrying with feedback until the quality threshold is met.
 
 ```
-START → writer → END
+START → writer → evaluator → router
+                                ├─ passed (score >= 7) → END
+                                ├─ iterations < max → writer (retry)
+                                └─ iterations >= max → END
 ```
 
 ## Short input
