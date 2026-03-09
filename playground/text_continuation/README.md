@@ -25,3 +25,15 @@ npx tsx playground/text_continuation/index.ts --input "The human brain contains 
 
 npx tsx playground/text_continuation/index.ts --input "By the time the rescue team arrived, the village had been cut off for nearly a week. The river had swollen beyond its banks, swallowing roads and bridges alike. Families huddled in the school gymnasium, sharing blankets and whatever food remained. Outside, the rain showed no sign of stopping, and the forecast promised three more days of the same."
 ```
+
+## Unfinished sentences
+
+```bash
+npx tsx playground/text_continuation/index.ts --input "The reason most startups fail is not because they lack funding, but because"
+
+npx tsx playground/text_continuation/index.ts --input "She opened the envelope carefully, and inside she found"
+
+npx tsx playground/text_continuation/index.ts --input "After months of searching, the archaeologists finally uncovered what appeared to be"
+
+npx tsx playground/text_continuation/index.ts --input "The difference between a good engineer and a great one comes down to"
+```
