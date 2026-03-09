@@ -19,8 +19,10 @@ export async function continueWritingNode(
   });
 
   const userMessage = [
-    state.constraints ? `Constraints: ${state.constraints}` : null,
-    `\n${state.content}`,
+    state.constraints
+      ? `<constraints>${state.constraints}</constraints>`
+      : null,
+    `<content>${state.content}</content>`,
   ]
     .filter(Boolean)
     .join('\n');
