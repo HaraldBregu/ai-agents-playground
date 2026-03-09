@@ -10,6 +10,26 @@ const ContinuationState = Annotation.Root({
     reducer: (_a, b) => b,
     default: () => '',
   }),
+  evaluationScore: Annotation<number>({
+    reducer: (_a, b) => b,
+    default: () => 0,
+  }),
+  evaluationFeedback: Annotation<string>({
+    reducer: (_a, b) => b,
+    default: () => '',
+  }),
+  passed: Annotation<boolean>({
+    reducer: (_a, b) => b,
+    default: () => false,
+  }),
+  iteration: Annotation<number>({
+    reducer: (a, b) => (b ?? a) + 1,
+    default: () => 0,
+  }),
+  maxIterations: Annotation<number>({
+    reducer: (_a, b) => b,
+    default: () => 3,
+  }),
 });
 
 async function writerNode(
