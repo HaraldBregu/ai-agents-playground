@@ -16,6 +16,7 @@ async function main() {
 
   const input = values.input ?? '';
   const type = values.type ?? 'continue_writing';
+  const contentLength = values.length ?? 'short';
 
   if (!input) {
     console.error('Provide --input');
