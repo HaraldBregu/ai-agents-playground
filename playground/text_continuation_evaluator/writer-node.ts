@@ -32,5 +32,7 @@ export async function writerNode(
   const continuation =
     typeof response.content === 'string' ? response.content : '';
 
+  console.log('[writer]', continuation);
+
   return { continuation };
 }
