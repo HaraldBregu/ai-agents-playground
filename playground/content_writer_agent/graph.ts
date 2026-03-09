@@ -14,7 +14,7 @@ export const WriterState = Annotation.Root({
     reducer: (_a, b) => b,
     default: () => '',
   }),
-  contentLength: Annotation<"short" | "medium" | "long">({
+  contentLength: Annotation<'short' | 'medium' | 'long'>({
     reducer: (_a, b) => b,
     default: () => 'short',
   }),
@@ -37,7 +37,7 @@ export function createWriterGraph() {
   const graph = new StateGraph(WriterState)
     .addNode('continue_writing', continueWritingNode)
     .addEdge('__start__', 'continue_writing')
-    .addEdge('continue_writing', '__end__')
+    .addEdge('continue_writing', '__end__');
 
   return graph.compile();
 }

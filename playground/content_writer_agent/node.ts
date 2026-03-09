@@ -1,7 +1,6 @@
 import { ChatOpenAI } from '@langchain/openai';
 import type { WriterState } from './graph';
 
-
 const systemPrompt = `
 You are a writing continuation assistant.
 
