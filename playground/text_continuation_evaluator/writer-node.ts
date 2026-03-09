@@ -20,7 +20,7 @@ export async function writerNode(
         'Do not repeat, summarize, or comment on the existing text.',
         'Do not add titles, headers, or introductory phrases.',
         'Just continue writing as if you are the original author.',
-        'Write maximum 10 words only.',
+        'Write maximum 1000 words only.',
       ].join(' '),
 
       // content: [
