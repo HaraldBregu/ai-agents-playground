@@ -49,3 +49,16 @@ npx tsx playground/text_continuation/index.ts --input "Machine learning models h
 
 npx tsx playground/text_continuation/index.ts --input "Growing up in a small farming town, Maria never imagined she would end up leading a research team at one of the world's top universities. Her parents worked long hours in the fields and could barely afford school supplies. But her math teacher saw something in her — a quiet persistence, a hunger for problems that didn't have easy answers — and encouraged her to"
 ```
+
+## Incomplete words
+
+```bash
+npx tsx playground/text_continuation/index.ts --input "The tele"
+npx tsx playground/text_continuation/index.ts --input "She was incredi"
+npx tsx playground/text_continuation/index.ts --input "The govern"
+npx tsx playground/text_continuation/index.ts --input "It was an unforg"
+npx tsx playground/text_continuation/index.ts --input "The astro"
+npx tsx playground/text_continuation/index.ts --input "They walked through the neigh"
+npx tsx playground/text_continuation/index.ts --input "He opened his laptop and started typ"
+npx tsx playground/text_continuation/index.ts --input "The experiment produced unexpe"
+```

@@ -32,9 +32,14 @@ async function writerNode(
         ].join(' '),
       },
       { role: 'user', content: state.inputText },
-      { role: 'assistant', content: 'Continue the writing naturally.' },
+      {
+        role: 'assistant', content:
+          [
+            'Continue the writing naturally.',
+            'Respond with maximum 5-10 words.',
+          ].join(' '),
+      },
     ],
-    { maxTokens: 10 },
   );
 
   const continuation =
