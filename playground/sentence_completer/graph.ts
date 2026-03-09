@@ -1,5 +1,11 @@
+import { readFileSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { Annotation, StateGraph } from '@langchain/langgraph';
 import { ChatOpenAI } from '@langchain/openai';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const systemPrompt = readFileSync(join(__dirname, 'system.md'), 'utf-8').trim();
 
 export const CompleterState = Annotation.Root({
   inputText: Annotation<string>({
@@ -21,20 +27,7 @@ async function completerNode(
   });
 
   const response = await model.invoke([
-    {
-      role: 'system',
-      content: [
-        'You are a sentence completion assistant.',
-        'The user will provide text that may end with an incomplete word or unfinished sentence.',
-        'Complete the word and/or sentence naturally.',
-        'Match the tone, style, and subject of the original text.',
-        'Do not repeat the input.',
-        'Do not add extra sentences beyond completing the current one.',
-        'IMPORTANT: If the text already ends with a period, question mark, or exclamation mark, the sentence is complete — you MUST respond with nothing, absolutely no output, not even a single character.',
-        'Only respond when the text is genuinely incomplete.',
-        'Respond only with the completion.',
-      ].join(' '),
-    },
+    { role: 'system', content: systemPrompt },
     { role: 'user', content: state.inputText },
   ]);
 
