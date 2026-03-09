@@ -18,12 +18,13 @@ export async function summarizeNode(
     temperature: 0.3,
   });
 
-  const userMessage = [
-    state.constraints ? `Constraints: ${state.constraints}` : null,
-    `\n${state.content}`,
-  ]
-    .filter(Boolean)
-    .join('\n');
+  let userMessage = '';
+
+  if (state.constraints) {
+    userMessage += `<constraints>${state.constraints}</constraints>\n`;
+  }
+
+  userMessage += `<content>${state.content}</content>`;
 
   const response = await model.invoke([
     { role: 'system', content: systemPrompt },
