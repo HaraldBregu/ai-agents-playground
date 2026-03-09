@@ -5,10 +5,7 @@ import { ChatOpenAI } from '@langchain/openai';
 import type { WriterState } from '../../graph';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const systemPrompt = readFileSync(
-  join(__dirname, 'EXPAND.md'),
-  'utf-8',
-).trim();
+const systemPrompt = readFileSync(join(__dirname, 'EXPAND.md'), 'utf-8').trim();
 
 export async function expandNode(
   state: typeof WriterState.State,

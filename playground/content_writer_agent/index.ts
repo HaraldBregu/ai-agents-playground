@@ -11,7 +11,7 @@ import { saveResult } from '../save-result';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const streamPrompt = readFileSync(
-  join(__dirname, 'instructions', 'CONTINUE_WRITING.md'),
+  join(__dirname, 'nodes', 'continue_writing', 'CONTINUE_WRITING.md'),
   'utf-8',
 ).trim();
 
