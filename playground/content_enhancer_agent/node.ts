@@ -41,7 +41,7 @@ export async function enhanceContentNode(
 
   const messages: { role: 'system' | 'user'; content: string }[] = [
     { role: 'system', content: systemPrompt },
-    { role: 'user', content: `<content>${state.content}</content>` },
+    { role: 'user', content: state.content },
   ];
 
   const response = await model.invoke(messages);
