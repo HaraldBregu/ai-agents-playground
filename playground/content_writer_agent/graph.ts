@@ -30,9 +30,7 @@ export const WriterState = Annotation.Root({
   }),
 });
 
-function routeByIntent(
-  state: typeof WriterState.State,
-): string {
+function routeByIntent(state: typeof WriterState.State): string {
   const routes: Record<string, string> = {
     continue_writing: 'continue_writing',
     continue_writing_new_paragraph: 'continue_writing_new_paragraph',
