@@ -18,14 +18,13 @@ export async function continueWritingNode(
     temperature: 0.7,
   });
 
-  const userMessage = [
-    state.constraints
-      ? `<constraints>${state.constraints}</constraints>`
-      : null,
-    `<content>${state.content}</content>`,
-  ]
-    .filter(Boolean)
-    .join('\n');
+  let userMessage = '';
+
+  if (state.constraints) {
+    userMessage += `<constraints>${state.constraints}</constraints>\n`;
+  }
+
+  userMessage += `<content>${state.content}</content>`;
 
   const response = await model.invoke([
     { role: 'system', content: systemPrompt },
