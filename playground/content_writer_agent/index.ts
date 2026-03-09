@@ -19,6 +19,7 @@ async function main() {
   const { values } = parseArgs({
     options: {
       input: { type: 'string', short: 'i' },
+      type: { type: 'string', short: 't' },
       stream: { type: 'boolean' },
     },
   });
