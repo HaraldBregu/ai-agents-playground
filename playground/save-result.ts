@@ -16,7 +16,7 @@ export function saveResult(
   const resultsDir = join(dir, 'results');
   mkdirSync(resultsDir, { recursive: true });
 
-  const name = callerFile.replace(/\.ts$/, '').split('/').pop()!;
+  const name = basename(callerFile, '.ts');
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
   const filePath = join(resultsDir, `${name}_${timestamp}.md`);
 
