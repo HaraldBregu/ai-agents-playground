@@ -27,13 +27,13 @@ async function main() {
   console.log('INPUT:', input);
   console.log('\nOUTPUT:', result.continuation);
 
-  saveResult(import.meta.filename, {
-    model: 'gpt-4o',
-    temperature: 0.7,
-    messages: [{ role: 'user', content: input }],
-    response: result.continuation,
-    durationMs: Date.now() - start,
-  });
+  // saveResult(import.meta.filename, {
+  //   model: 'gpt-4o',
+  //   temperature: 0.7,
+  //   messages: [{ role: 'user', content: input }],
+  //   response: result.continuation,
+  //   durationMs: Date.now() - start,
+  // });
 }
 
 main().catch(console.error);

@@ -1,5 +1,5 @@
 import { mkdirSync, writeFileSync } from 'fs';
-import { dirname, join } from 'path';
+import { basename, dirname, join } from 'path';
 
 export function saveResult(
   callerFile: string,
