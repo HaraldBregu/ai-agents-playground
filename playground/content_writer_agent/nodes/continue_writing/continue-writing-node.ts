@@ -38,6 +38,7 @@ export async function continueWritingNode(
     content: `<content>${state.content}</content>`,
   });
 
+  console.log('[continue_writing] Invoking model with messages:\n', messages);
   const response = await model.invoke(messages);
 
   const completion =
