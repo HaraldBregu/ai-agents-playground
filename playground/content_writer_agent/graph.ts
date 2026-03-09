@@ -15,9 +15,9 @@ export const WriterState = Annotation.Root({
     reducer: (_a, b) => b,
     default: () => '',
   }),
-  constraints: Annotation<string | null>({
+  contentLength: Annotation<string>({
     reducer: (_a, b) => b,
-    default: () => null,
+    default: () => 'short',
   }),
   completion: Annotation<string>({
     reducer: (_a, b) => b,

@@ -19,11 +19,6 @@ export async function suggestionNextNode(
   });
 
   let userMessage = '';
-
-  if (state.constraints) {
-    userMessage += `<constraints>${state.constraints}</constraints>\n`;
-  }
-
   userMessage += `<content>${state.content}</content>`;
 
   const response = await model.invoke([
