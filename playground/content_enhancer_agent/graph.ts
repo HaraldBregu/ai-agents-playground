@@ -10,10 +10,6 @@ export const EnhancerState = Annotation.Root({
     reducer: (_a, b) => b,
     default: () => '',
   }),
-  enhancementLevel: Annotation<'light' | 'moderate' | 'heavy'>({
-    reducer: (_a, b) => b,
-    default: () => 'light',
-  }),
   completion: Annotation<string>({
     reducer: (_a, b) => b,
     default: () => '',
