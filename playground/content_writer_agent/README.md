@@ -28,4 +28,3 @@ npx tsx playground/content_writer_agent/index.ts -i "In 1969, humans landed on t
 npx tsx playground/content_writer_agent/index.ts -i "Die Geschichte der Berliner Mauer begann im August 1961." -l long
 npx tsx playground/content_writer_agent/index.ts -i "La révolution française a profondément changé la société européenne." -l long
 ```
-
