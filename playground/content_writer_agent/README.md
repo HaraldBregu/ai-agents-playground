@@ -10,6 +10,11 @@ npx tsx playground/content_writer_agent/index.ts -i "The tele" -t continue_writi
 npx tsx playground/content_writer_agent/index.ts -i "Coffee originated in Ethiopia."
 npx tsx playground/content_writer_agent/index.ts -i "She opened the door and"
 npx tsx playground/content_writer_agent/index.ts -i "Il caffè era ancora caldo sul tavolo."
+npx tsx playground/content_writer_agent/index.ts -i "For centuries, the deep ocean remained one of the last unexplored frontiers on Earth. Early sailors feared what lurked beneath the waves, imagining sea monsters and bottomless trenches."
+npx tsx playground/content_writer_agent/index.ts -i "The first computers filled entire rooms and consumed enormous amounts of electricity. They were operated by teams of engineers who fed instructions through punch cards."
+npx tsx playground/content_writer_agent/index.ts -i "Leonardo da Vinci was not only a painter but also an inventor, scientist, and engineer. His notebooks reveal a mind centuries ahead of its time."
+npx tsx playground/content_writer_agent/index.ts -i "The reason most startups fail is not because they lack funding, but because"
+npx tsx playground/content_writer_agent/index.ts -i "In 1969, humans landed on the Moon for the first time. What followed was a wave of technological innovation that would reshape everyday life in ways no one could have predicted."
 ```
 
 ## Suggestion Next

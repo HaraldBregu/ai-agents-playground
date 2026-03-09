@@ -14,7 +14,7 @@ export async function suggestionNextNode(
   state: typeof WriterState.State,
 ): Promise<Partial<typeof WriterState.State>> {
   const model = new ChatOpenAI({
-    model: 'gpt-4o-mini',
+    model: 'gpt-4o',
     temperature: 0.9,
   });
 

@@ -3,6 +3,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { ChatOpenAI } from '@langchain/openai';
 import type { WriterState } from '../../graph';
+import { json } from 'stream/consumers';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const systemPrompt = readFileSync(
@@ -19,11 +20,6 @@ export async function continueWritingNode(
   });
 
   let userMessage = '';
-
-  if (state.constraints) {
-    userMessage += `<constraints>${state.constraints}</constraints>\n`;
-  }
-
   userMessage += `<content>${state.content}</content>`;
 
   const response = await model.invoke([
