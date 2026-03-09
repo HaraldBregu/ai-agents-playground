@@ -2,7 +2,6 @@
 
 LangGraph pipeline with an intent resolver and a writer node. The intent node analyzes what the user wants, then the writer executes it.
 
-
 ## Intent: Continue writing with constraints
 
 ```bash
