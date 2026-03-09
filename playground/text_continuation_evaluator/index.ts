@@ -9,15 +9,10 @@ async function main() {
   const { values } = parseArgs({
     options: {
       input: { type: 'string', short: 'i' },
-      'max-iterations': { type: 'string' },
-      verbose: { type: 'boolean', short: 'v' },
     },
   });
 
   const input = values.input ?? '';
-  const maxIterations = values['max-iterations']
-    ? parseInt(values['max-iterations'])
-    : 3;
 
   if (!input) {
     console.error('Provide --input');
@@ -27,15 +22,7 @@ async function main() {
   const graph = createContinuationGraph();
 
   const start = Date.now();
-  const result = await graph.invoke({ inputText: input, maxIterations });
-
-  if (values.verbose) {
-    console.log('SCORE:', result.evaluationScore);
-    console.log('FEEDBACK:', result.evaluationFeedback);
-    console.log('ITERATIONS:', result.iteration);
-    console.log('PASSED:', result.passed);
-    console.log('---');
-  }
+  const result = await graph.invoke({ inputText: input });
 
   console.log('INPUT:', input);
   console.log('\nOUTPUT:', result.continuation);
