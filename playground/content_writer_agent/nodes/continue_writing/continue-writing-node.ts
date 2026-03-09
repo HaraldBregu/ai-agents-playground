@@ -2,11 +2,11 @@ import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { ChatOpenAI } from '@langchain/openai';
-import type { WriterState } from '../graph';
+import type { WriterState } from '../../graph';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const systemPrompt = readFileSync(
-  join(__dirname, '..', 'instructions', 'CONTINUE_WRITING.md'),
+  join(__dirname, 'CONTINUE_WRITING.md'),
   'utf-8',
 ).trim();
 
