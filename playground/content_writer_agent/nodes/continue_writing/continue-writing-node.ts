@@ -10,6 +10,11 @@ const systemPrompt = readFileSync(
   'utf-8',
 ).trim();
 
+const lengthPrompts: Record<string, string> = {
+  short: readFileSync(join(__dirname, 'SHORT_CONTINUATION.md'), 'utf-8').trim(),
+  long: readFileSync(join(__dirname, 'LONG_CONTINUATION.md'), 'utf-8').trim(),
+};
+
 export async function continueWritingNode(
   state: typeof WriterState.State,
 ): Promise<Partial<typeof WriterState.State>> {
@@ -18,14 +23,22 @@ export async function continueWritingNode(
     temperature: 0.7,
   });
 
-  let userMessage = '';
-  userMessage += `<content_length>${state.contentLength}</content_length>\n`;
-  userMessage += `<content>${state.content}</content>`;
+  const lengthInstruction = lengthPrompts[state.contentLength] ?? '';
 
-  const response = await model.invoke([
+  const messages: { role: 'system' | 'user'; content: string }[] = [
     { role: 'system', content: systemPrompt },
-    { role: 'user', content: userMessage },
-  ]);
+  ];
+
+  if (lengthInstruction) {
+    messages.push({ role: 'system', content: lengthInstruction });
+  }
+
+  messages.push({
+    role: 'user',
+    content: `<content>${state.content}</content>`,
+  });
+
+  const response = await model.invoke(messages);
 
   const completion =
     typeof response.content === 'string' ? response.content : '';
