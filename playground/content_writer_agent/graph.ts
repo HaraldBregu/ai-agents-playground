@@ -45,15 +45,15 @@ function routeByIntent(state: typeof WriterState.State): string {
 
 export function createWriterGraph() {
   const graph = new StateGraph(WriterState)
-    .addNode('intent', intentNode)
+    .addNode('intent_resolver', intentNode)
     .addNode('continue_writing', continueWritingNode)
     .addNode('continue_writing_new_paragraph', continueWritingNewParagraphNode)
     .addNode('create_new_section', createNewSectionNode)
     .addNode('summarize', summarizeNode)
     .addNode('rewrite', rewriteNode)
     .addNode('expand', expandNode)
-    .addEdge('__start__', 'intent')
-    .addConditionalEdges('intent', routeByIntent, [
+    .addEdge('__start__', 'intent_resolver')
+    .addConditionalEdges('intent_resolver', routeByIntent, [
       'continue_writing',
       'continue_writing_new_paragraph',
       'create_new_section',
