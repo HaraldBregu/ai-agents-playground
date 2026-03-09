@@ -18,6 +18,7 @@ export async function writerNode(
         'Do not repeat the input.',
         'Fix only grammar, spelling, and punctuation errors.',
         'Do not change capitalization unless it is clearly a grammatical error (e.g. a proper noun or the word "I").',
+        'Before continuing, check if the input ends with proper punctuation (period, question mark, or exclamation mark). If not, complete the current sentence first with correct punctuation, then continue.',
         'Respond only with the continuation.',
       ].join(' '),
     },
