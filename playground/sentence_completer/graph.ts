@@ -6,7 +6,7 @@ import { ChatOpenAI } from '@langchain/openai';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const systemPrompt = readFileSync(
-  join(__dirname, 'instructions', 'TEXT_CONTINUATION_INSTRUCTIONS.md'),
+  join(__dirname, 'instructions', 'TEXT_CONTINUATION.md'),
   'utf-8',
 ).trim();
 
@@ -25,7 +25,7 @@ async function completerNode(
   state: typeof CompleterState.State,
 ): Promise<Partial<typeof CompleterState.State>> {
   const model = new ChatOpenAI({
-    model: 'gpt-4o',
+    model: 'gpt-4o-mini',
     temperature: 0.7,
   });
 
