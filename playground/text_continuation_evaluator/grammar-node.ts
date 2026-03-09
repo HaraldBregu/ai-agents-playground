@@ -25,5 +25,7 @@ export async function grammarNode(
   const continuation =
     typeof response.content === 'string' ? response.content : '';
 
+  console.log('[grammar]', continuation);
+
   return { continuation };
 }
