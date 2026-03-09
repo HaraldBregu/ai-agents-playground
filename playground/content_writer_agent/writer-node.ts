@@ -18,9 +18,17 @@ export async function writerNode(
     temperature: 0.7,
   });
 
+  const userMessage = [
+    `Intent: ${state.intent}`,
+    state.constraints ? `Constraints: ${state.constraints}` : null,
+    `\nText:\n${state.content}`,
+  ]
+    .filter(Boolean)
+    .join('\n');
+
   const response = await model.invoke([
     { role: 'system', content: systemPrompt },
-    { role: 'user', content: state.inputText },
+    { role: 'user', content: userMessage },
   ]);
 
   const completion =
