@@ -6,6 +6,15 @@ LangGraph pipeline with a single completer node that finishes incomplete words a
 START → completer → END
 ```
 
+## Finished sentences
+
+```bash
+npx tsx playground/sentence_completer/index.ts --input "The ship had been drifting for three days."
+npx tsx playground/sentence_completer/index.ts --input "Coffee originated in Ethiopia."
+npx tsx playground/sentence_completer/index.ts --input "The old library smelled of dust and forgotten stories."
+npx tsx playground/sentence_completer/index.ts --input "She finally understood what he had been trying to say all along."
+```
+
 ## Incomplete words
 
 ```bash
