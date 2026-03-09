@@ -1,12 +1,9 @@
 # Text Continuation Evaluator Examples
 
-LangGraph pipeline with a writer and evaluator node. The writer generates a continuation and the evaluator scores it, retrying with feedback until the quality threshold is met.
+LangGraph pipeline with a writer node followed by a grammar correction node. The writer generates a continuation, then the grammar node fixes any spelling, punctuation, or grammar errors.
 
 ```
-START → writer → evaluator → router
-                                ├─ passed (score >= 7) → END
-                                ├─ iterations < max → writer (retry)
-                                └─ iterations >= max → END
+START → writer → grammar → END
 ```
 
 ## Short input
