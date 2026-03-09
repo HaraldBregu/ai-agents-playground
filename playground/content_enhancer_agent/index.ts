@@ -9,12 +9,10 @@ async function main() {
   const { values } = parseArgs({
     options: {
       input: { type: 'string', short: 'i' },
-      level: { type: 'string', short: 'l' },
     },
   });
 
   const input = values.input ?? '';
-  const enhancementLevel = values.level ?? 'light';
 
   if (!input) {
     console.error('Provide --input');
@@ -26,12 +24,10 @@ async function main() {
   const result = await graph.invoke({
     inputText: input,
     content: input,
-    enhancementLevel: enhancementLevel as 'light' | 'moderate' | 'heavy',
   });
   const completion = result.completion;
 
   console.log('INPUT:', input);
-  console.log('LEVEL:', enhancementLevel);
   console.log('\nOUTPUT:', completion);
 
   saveResult(import.meta.filename, {
