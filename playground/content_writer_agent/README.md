@@ -42,5 +42,36 @@ npx tsx playground/content_writer_agent/index.ts --input "Rewrite in a simpler w
 
 ```bash
 npx tsx playground/content_writer_agent/index.ts --input "Expand this: TypeScript adds static typing to JavaScript."
-npx tsx playground/content_writer_agent/index.ts --input "Expand with more detail: The Mediterranean diet is considered one of the healthiest in the world."
+npx tsx playground/content_writer_agent/index.ts --stream --input "Expand with more detail: The Mediterranean diet is considered one of the healthiest in the world."
+```
+
+## Ambiguous intent (should default to continue_writing)
+
+```bash
+npx tsx playground/content_writer_agent/index.ts --input "The tele"
+npx tsx playground/content_writer_agent/index.ts --input "She opened the door and"
+npx tsx playground/content_writer_agent/index.ts --input "The ship had been drifting for three days."
+npx tsx playground/content_writer_agent/index.ts --input "Coffee originated in Ethiopia."
+npx tsx playground/content_writer_agent/index.ts --input "The reason most startups fail is not because they lack funding, but because"
+npx tsx playground/content_writer_agent/index.ts --input "For centuries, the deep ocean remained one of the last unexplored frontiers on Earth. Early sailors feared what lurked beneath the waves, imagining sea monsters and bottomless trenches."
+```
+
+## No explicit action — just raw text
+
+```bash
+npx tsx playground/content_writer_agent/index.ts --input "Quantum computing"
+npx tsx playground/content_writer_agent/index.ts --input "The smell of fresh bread"
+npx tsx playground/content_writer_agent/index.ts --input "In 1969, humans landed on the Moon for the first time."
+npx tsx playground/content_writer_agent/index.ts --input "Il caffè era ancora caldo sul tavolo."
+npx tsx playground/content_writer_agent/index.ts --input "La differenza tra un buon programmatore e uno eccellente sta nella"
+```
+
+## Vague or implicit instructions
+
+```bash
+npx tsx playground/content_writer_agent/index.ts --input "Tell me more about the history of the internet."
+npx tsx playground/content_writer_agent/index.ts --input "Make this better: The weather was bad and everyone felt sad."
+npx tsx playground/content_writer_agent/index.ts --input "Can you improve this? The project failed due to poor management."
+npx tsx playground/content_writer_agent/index.ts --input "Fix this: Their going to the store to by some milk."
+npx tsx playground/content_writer_agent/index.ts --input "What else can be said about renewable energy sources?"
 ```
