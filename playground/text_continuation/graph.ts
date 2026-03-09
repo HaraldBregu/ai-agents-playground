@@ -18,6 +18,11 @@ async function writerNode(
   const model = new ChatOpenAI({ model: 'gpt-4o', temperature: 0.7 });
 
   const response = await model.invoke([
+    {
+      role: 'system',
+      content:
+        'You are a writing assistant. When given text, continue it naturally while matching the tone, style, and subject. Do not repeat the input. Respond only with the continuation.',
+    },
     { role: 'user', content: state.inputText },
     { role: 'assistant', content: 'Continue the writing naturally.' },
   ]);
