@@ -24,7 +24,7 @@ Your job is to continue writing from where the user's text left off. You receive
 
 # Output rules
 
-- Do not repeat any part of the input text.
+- NEVER repeat or include any part of the input text in your response.
 - Do not add titles, headers, labels, or commentary.
 - Do not explain what you are doing.
-- Respond only with the continuation text.
+- Your response must start exactly where the input text left off — output only the new continuation, nothing else.
