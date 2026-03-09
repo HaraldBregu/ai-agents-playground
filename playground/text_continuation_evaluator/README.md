@@ -72,3 +72,38 @@ npx tsx playground/text_continuation_evaluator/index.ts --input "They walked thr
 npx tsx playground/text_continuation_evaluator/index.ts --input "He opened his laptop and started typ"
 npx tsx playground/text_continuation_evaluator/index.ts --input "The experiment produced unexpe"
 ```
+
+## Italian - Short input
+
+```bash
+npx tsx playground/text_continuation_evaluator/index.ts --input "Il sole tramontava dietro le colline."
+npx tsx playground/text_continuation_evaluator/index.ts --input "Il caffè era ancora caldo sul tavolo."
+npx tsx playground/text_continuation_evaluator/index.ts --input "La vecchia libreria profumava di carta e ricordi."
+```
+
+## Italian - Long input
+
+```bash
+npx tsx playground/text_continuation_evaluator/index.ts --input "Roma non è solo una città, è un museo a cielo aperto. Ogni angolo nasconde una storia, ogni pietra porta il peso di secoli. I turisti si fermano davanti al Colosseo, ma i romani sanno che la vera bellezza si trova nelle stradine di Trastevere, nei mercati di Campo de' Fiori, nelle trattorie dove il cacio e pepe si prepara ancora come una volta."
+
+npx tsx playground/text_continuation_evaluator/index.ts --input "La cucina italiana è molto più di pasta e pizza. Ogni regione ha le sue tradizioni, i suoi ingredienti, i suoi segreti tramandati di generazione in generazione. In Sicilia si usano le mandorle e il pesce spada. In Emilia-Romagna il parmigiano e il prosciutto sono religione. In Liguria il pesto genovese si fa solo con il basilico di Prà."
+```
+
+## Italian - Unfinished sentences
+
+```bash
+npx tsx playground/text_continuation_evaluator/index.ts --input "Il motivo per cui molte aziende falliscono non è la mancanza di fondi, ma perché"
+npx tsx playground/text_continuation_evaluator/index.ts --input "Aprì la lettera con mani tremanti e dentro trovò"
+npx tsx playground/text_continuation_evaluator/index.ts --input "Dopo anni di ricerche, gli scienziati finalmente scoprirono che"
+npx tsx playground/text_continuation_evaluator/index.ts --input "La differenza tra un buon programmatore e uno eccellente sta nella"
+```
+
+## Italian - Incomplete words
+
+```bash
+npx tsx playground/text_continuation_evaluator/index.ts --input "Il tele"
+npx tsx playground/text_continuation_evaluator/index.ts --input "Era incredi"
+npx tsx playground/text_continuation_evaluator/index.ts --input "Il gover"
+npx tsx playground/text_continuation_evaluator/index.ts --input "Camminavano attraverso il quar"
+npx tsx playground/text_continuation_evaluator/index.ts --input "L'esperimento produsse risul"
+```
