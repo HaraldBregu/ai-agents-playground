@@ -20,7 +20,6 @@ async function main() {
     options: {
       input: { type: 'string', short: 'i' },
       type: { type: 'string', short: 't' },
-      stream: { type: 'boolean' },
     },
   });
 
