@@ -1,9 +1,9 @@
 # Text Continuation Evaluator Examples
 
-LangGraph pipeline with a writer node followed by a grammar correction node. The writer generates a continuation, then the grammar node fixes any spelling, punctuation, or grammar errors.
+LangGraph pipeline with a single writer node that generates a continuation with built-in grammar, spelling, and punctuation correction.
 
 ```
-START → writer → grammar → END
+START → writer → END
 ```
 
 ## Short input
