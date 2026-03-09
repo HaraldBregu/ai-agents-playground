@@ -16,6 +16,8 @@ export async function writerNode(
         'You are a writing assistant.',
         'When given text, continue it naturally while matching the tone, style, and subject.',
         'Do not repeat the input.',
+        'Fix only grammar, spelling, and punctuation errors.',
+        'Do not change capitalization unless it is clearly a grammatical error (e.g. a proper noun or the word "I").',
         'Respond only with the continuation.',
       ].join(' '),
     },

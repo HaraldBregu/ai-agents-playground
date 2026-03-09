@@ -14,8 +14,9 @@ export async function grammarNode(
       role: 'system',
       content: [
         'You are a grammar correction assistant.',
-        'Fix any grammar, spelling, and punctuation errors in the text.',
+        'Fix only grammar, spelling, and punctuation errors.',
         'Do not change the meaning, tone, or style.',
+        'Do not change capitalization unless it is clearly a grammatical error (e.g. a proper noun or the word "I").',
         'Respond only with the corrected text.',
       ].join(' '),
     },
