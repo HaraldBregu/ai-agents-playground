@@ -25,7 +25,12 @@ async function main() {
 
   const start = Date.now();
   const graph = createWriterGraph();
-  const result = await graph.invoke({ inputText: input, type, content: input });
+  const result = await graph.invoke({
+    inputText: input,
+    type,
+    content: input,
+    contentLength,
+  });
   const completion = result.completion;
 
   console.log('INPUT:', input);
