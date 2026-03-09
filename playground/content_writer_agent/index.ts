@@ -10,8 +10,8 @@ import { createWriterGraph } from './graph';
 import { saveResult } from '../save-result';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const systemPrompt = readFileSync(
-  join(__dirname, 'instructions', 'CONTENT_WRITER_AGENT.md'),
+const streamPrompt = readFileSync(
+  join(__dirname, 'instructions', 'CONTINUE_WRITING.md'),
   'utf-8',
 ).trim();
 
@@ -31,7 +31,7 @@ async function main() {
   }
 
   const messages: { role: 'system' | 'user'; content: string }[] = [
-    { role: 'system', content: systemPrompt },
+    { role: 'system', content: streamPrompt },
     { role: 'user', content: input },
   ];
 
