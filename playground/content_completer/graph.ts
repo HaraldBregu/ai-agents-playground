@@ -6,7 +6,7 @@ import { ChatOpenAI } from '@langchain/openai';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const systemPrompt = readFileSync(
-  join(__dirname, 'instructions', 'TEXT_CONTINUATION.md'),
+  join(__dirname, 'instructions', 'CONTENT_COMPLETER.md'),
   'utf-8',
 ).trim();
 
