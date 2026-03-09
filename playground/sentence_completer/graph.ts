@@ -30,6 +30,7 @@ async function completerNode(
         'Match the tone, style, and subject of the original text.',
         'Do not repeat the input.',
         'Do not add extra sentences beyond completing the current one.',
+        'If the sentence is already complete (ends with . ? or !), return an empty string.',
         'Respond only with the completion.',
       ].join(' '),
     },
