@@ -14,6 +14,7 @@ async function main() {
   });
 
   const input = values.input ?? '';
+  const type = values.type ?? 'continue_writing';
 
   if (!input) {
     console.error('Provide --input');
@@ -22,10 +23,11 @@ async function main() {
 
   const start = Date.now();
   const graph = createWriterGraph();
-  const result = await graph.invoke({ inputText: input });
+  const result = await graph.invoke({ inputText: input, type, content: input });
   const completion = result.completion;
 
   console.log('INPUT:', input);
+  console.log('TYPE:', type);
   console.log('\nOUTPUT:', completion);
 
   saveResult(import.meta.filename, {
