@@ -45,6 +45,15 @@ npx tsx playground/sentence_completer/index.ts --input "For centuries, the deep 
 npx tsx playground/sentence_completer/index.ts --input "Machine learning models have become remarkably good at pattern recognition. They can identify faces in photos, translate languages in real time, and even generate realistic images from text descriptions. Yet despite these advances, there remains a fundamental gap between what these systems can do and what we would consider true understanding, because"
 ```
 
+## Italian - Finished sentences
+
+```bash
+npx tsx playground/sentence_completer/index.ts --input "Il sole tramontava dietro le colline."
+npx tsx playground/sentence_completer/index.ts --input "Il caffè era ancora caldo sul tavolo."
+npx tsx playground/sentence_completer/index.ts --input "La vecchia libreria profumava di carta e ricordi."
+npx tsx playground/sentence_completer/index.ts --input "Non aveva mai visto un tramonto così bello."
+```
+
 ## Italian - Incomplete words
 
 ```bash
