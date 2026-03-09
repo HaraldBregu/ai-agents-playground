@@ -33,7 +33,9 @@
       "Bash(yarn test:voice_matching:*)",
       "Write",
       "Edit",
-      "Bash(chmod +x:*)"
+      "Bash(chmod +x:*)",
+      "Bash(cp:*)",
+      "Bash(rm:*)"
     ]
   }
 }
