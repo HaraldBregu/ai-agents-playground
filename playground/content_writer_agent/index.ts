@@ -10,6 +10,7 @@ async function main() {
     options: {
       input: { type: 'string', short: 'i' },
       type: { type: 'string', short: 't' },
+      length: { type: 'string', short: 'l' },
     },
   });
 
