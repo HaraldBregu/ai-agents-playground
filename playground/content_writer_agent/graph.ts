@@ -1,5 +1,5 @@
 import { Annotation, StateGraph } from '@langchain/langgraph';
-import { intentNode } from './intent-node';
+import { intentNode } from './nodes/intent-node';
 import { continueWritingNode } from './nodes/continue-writing-node';
 import { continueWritingNewParagraphNode } from './nodes/continue-writing-new-paragraph-node';
 import { createNewSectionNode } from './nodes/create-new-section-node';
