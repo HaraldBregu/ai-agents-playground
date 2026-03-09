@@ -21,18 +21,29 @@ async function main() {
 
   const start = Date.now();
   const graph = createEnhancerGraph();
-  const result = await graph.invoke({
-    inputText: input,
-    content: input,
-  });
-  const completion = result.completion;
 
   console.log('INPUT:', input);
-  console.log('\nOUTPUT:', completion);
+  process.stdout.write('\nOUTPUT: ');
+
+  let completion = '';
+  const stream = await graph.stream(
+    { inputText: input, content: input },
+    { streamMode: 'updates' },
+  );
+
+  for await (const event of stream) {
+    const nodeOutput = event.enhance_content;
+    if (nodeOutput?.completion) {
+      completion = nodeOutput.completion;
+      process.stdout.write(completion);
+    }
+  }
+
+  process.stdout.write('\n');
 
   saveResult(import.meta.filename, {
     model: 'gpt-4o',
-    temperature: 0.7,
+    temperature: 0.9,
     messages: [{ role: 'user', content: input }],
     response: completion,
     durationMs: Date.now() - start,

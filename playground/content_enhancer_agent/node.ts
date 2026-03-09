@@ -36,7 +36,7 @@ export async function enhanceContentNode(
 ): Promise<Partial<typeof EnhancerState.State>> {
   const model = new ChatOpenAI({
     model: 'gpt-4o',
-    temperature: 0.7,
+    temperature: 0.9,
   });
 
   const messages: { role: 'system' | 'user'; content: string }[] = [
