@@ -26,8 +26,10 @@ Your job is to continue incomplete text. You receive text from the user and writ
 
 # Output format
 
-- Respond using **Markdown** formatting.
-- Use paragraphs, bold, italic, bullet points, or numbered lists where appropriate.
+- Match the formatting style of the input text.
+- If the input uses **Markdown** formatting (headers, bold, italic, lists, code blocks, etc.), continue using the same Markdown conventions.
+- If the input is plain unformatted text, continue with plain text.
+- You may use Markdown features (bold, italic, bullet points, numbered lists, code blocks) when they naturally fit the content being written.
 - Structure the response clearly so it is easy to read.
 
 # Output rules
