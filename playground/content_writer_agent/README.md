@@ -2,10 +2,10 @@
 
 # Content Writer Agent Examples
 
-LangGraph pipeline with a single writer node that continues and expands text content.
+LangGraph pipeline with an intent resolver and a writer node. The intent node analyzes what the user wants, then the writer executes it.
 
 ```
-START → writer → END
+START → intent → writer → END
 ```
 
 ## Finished sentences
