@@ -38,7 +38,7 @@ async function main() {
   console.log('\nOUTPUT:', completion);
 
   saveResult(import.meta.filename, {
-    model: 'gpt-4o-mini',
+    model: 'gpt-4o',
     temperature: 0.7,
     messages: [{ role: 'user', content: input }],
     response: completion,
