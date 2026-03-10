@@ -31,8 +31,7 @@ export async function generateNode(
     },
   ]);
 
-  const answer =
-    typeof response.content === 'string' ? response.content : '';
+  const answer = typeof response.content === 'string' ? response.content : '';
 
   console.log('[generate]', answer);
 

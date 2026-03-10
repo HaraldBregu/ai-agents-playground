@@ -14,7 +14,8 @@ function chunkBySection(text: string): string[] {
     const trimmed = section.trim();
     if (!trimmed) continue;
 
-    const restored = sections.indexOf(section) === 0 ? trimmed : `## ${trimmed}`;
+    const restored =
+      sections.indexOf(section) === 0 ? trimmed : `## ${trimmed}`;
     if (restored.length > 1500) {
       const paragraphs = restored.split(/\n\n+/);
       let current = '';
